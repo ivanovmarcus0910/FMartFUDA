@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMartFUDAApp", "FMartFUDAApp\FMartFUDAApp.csproj", "{CD59C889-3959-4237-81E2-2B26B2B84D3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMartFUDAApp", "FMartFUDAApp\FMartFUDAApp.csproj", "{CD59C889-3959-4237-81E2-2B26B2B84D3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{C42F50C3-972C-4C6A-9BA2-C23F29AFFEAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{C42F50C3-972C-4C6A-9BA2-C23F29AFFEAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{27894E2F-932C-4362-891B-BFF7F72AB838}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{27894E2F-932C-4362-891B-BFF7F72AB838}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{AC071333-89FC-44D7-B096-0A4F017255A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{27894E2F-932C-4362-891B-BFF7F72AB838}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27894E2F-932C-4362-891B-BFF7F72AB838}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27894E2F-932C-4362-891B-BFF7F72AB838}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC071333-89FC-44D7-B096-0A4F017255A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC071333-89FC-44D7-B096-0A4F017255A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC071333-89FC-44D7-B096-0A4F017255A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC071333-89FC-44D7-B096-0A4F017255A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
