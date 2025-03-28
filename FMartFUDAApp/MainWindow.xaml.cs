@@ -23,5 +23,25 @@ namespace FMartFUDAApp
             InitializeComponent();
             employeeCurrent = employee;
         }
+
+      
+
+        
+        private void CustomerManagement(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OrderManagement(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FinancialManagement(object sender, RoutedEventArgs e)
+        {
+            FinancialManagement next = new FinancialManagement(employeeCurrent);
+            next.Show();
+            Close();
+        }
     }
 }
