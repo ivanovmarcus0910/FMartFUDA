@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Models.Models;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,9 +17,11 @@ namespace FMartFUDAApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        Employee employeeCurrent;
+        public MainWindow(Employee employee)
         {
             InitializeComponent();
+            employeeCurrent = employee;
         }
     }
 }

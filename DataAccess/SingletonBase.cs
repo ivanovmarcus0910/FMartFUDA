@@ -5,7 +5,7 @@ namespace DataAccess
     {
         private static T _instance;
         private static readonly object _lock = new object();
-        public static FuminiHotelManagementContext _context = new FuminiHotelManagementContext();
+        public static FmartFudaContext _context = new FmartFudaContext();
 
         public static T Instance
         {
