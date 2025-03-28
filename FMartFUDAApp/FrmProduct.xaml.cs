@@ -133,7 +133,7 @@ namespace FMartFUDAApp
                 if (openFileDialog.ShowDialog() == true)
                 {
                     // Lấy đường dẫn thư mục của project
-                    string projectDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+                    string projectDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
                     string imagesFolderPath = System.IO.Path.Combine(projectDirectory, "Images");
 
                     // Tạo thư mục Images nếu chưa tồn tại
@@ -148,7 +148,7 @@ namespace FMartFUDAApp
 
                     // Sao chép ảnh vào thư mục Images (ghi đè nếu trùng tên)
                     File.Copy(openFileDialog.FileName, destinationPath, true);
-
+                    MessageBox.Show($"Ảnh được copy đến: {destinationPath}");
                     // Hiển thị ảnh trên giao diện
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
