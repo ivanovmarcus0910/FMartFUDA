@@ -39,7 +39,7 @@ namespace FMartFUDAApp
             _currentUser = currentUser;
 
             // Kiểm tra quyền ngay trong constructor (bỏ hàm CheckRolePermission)
-            if (_currentUser.RoleId != 1 && _currentUser.RoleId != 2)
+            if (_currentUser.RoleId != 1 && _currentUser.RoleId != 3)
             {
                 MessageBox.Show("Bạn không có quyền truy cập trang Quản lý Khách hàng!",
                                 "Permission Denied",
@@ -97,7 +97,7 @@ namespace FMartFUDAApp
                 // Ghi log
                 await _historyRepo.AddAsync(new CustomerHistory
                 {
-                    ActionType = "Add",
+                    ActionType = "Insert",
                     ActionDate = DateOnly.FromDateTime(DateTime.Now),
                     EmployeeId = _currentUser.EmployeeId,
                     ChangeDecription = $"Thêm khách hàng: {newCustomer.CustomerName}"
@@ -175,7 +175,6 @@ namespace FMartFUDAApp
                             EmployeeId = _currentUser.EmployeeId,
                             ChangeDecription = $"Xoá khách hàng: {selected.CustomerName}"
                         });
-
                         await LoadCustomersAsync();
                         ClearForm();
                     }

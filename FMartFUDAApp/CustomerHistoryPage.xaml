@@ -5,25 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FMartFUDAApp"
         mc:Ignorable="d"
-        Title="CustomerHistoryPage" Height="450" Width="800">
-    <Grid Margin="10">
-        <TextBlock Text="LỊCH SỬ KHÁCH HÀNG"
-                   FontSize="20"
+      Title="Customer History" Background="White">
+        <Grid Margin="0">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <!-- Tiêu đề -->
+    <TextBlock Text="LỊCH SỬ KHÁCH HÀNG"
+                   FontSize="24"
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
-                   Margin="0,0,0,10" />
+                   Margin="10"/>
 
-        <DataGrid x:Name="dgCustomerHistory"
-                  Margin="0,40,0,0"
+    <!-- DataGrid hiển thị lịch sử -->
+    <DataGrid x:Name="dgCustomerHistory"
+                  Grid.Row="1"
+                  Margin="10"
                   AutoGenerateColumns="False"
-                  IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding HistoryId}" Width="50"/>
-                <DataGridTextColumn Header="Loại thao tác" Binding="{Binding ActionType}" Width="100"/>
-                <DataGridTextColumn Header="Thời gian" Binding="{Binding ActionDate}" Width="150"/>
-                <DataGridTextColumn Header="Nhân viên" Binding="{Binding EmployeeId}" Width="80"/>
-                <DataGridTextColumn Header="Mô tả" Binding="{Binding ChangeDecription}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="ID" Binding="{Binding HistoryId}" Width="Auto"/>
+            <DataGridTextColumn Header="Loại thao tác" Binding="{Binding ActionType}" Width="*"/>
+            <DataGridTextColumn Header="Thời gian" Binding="{Binding ActionDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+            <!-- Sử dụng binding đến Employee.EmployeeName -->
+            <DataGridTextColumn Header="Nhân viên" Binding="{Binding EmployeeId}" Width="*"/>
+            <DataGridTextColumn Header="Mô tả" Binding="{Binding ChangeDecription}" Width="2*"/>
+        </DataGrid.Columns>
+    </DataGrid>
     </Grid>
 </Page>

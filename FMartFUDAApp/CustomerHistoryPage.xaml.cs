@@ -21,8 +21,8 @@ namespace FMartFUDAApp
     /// </summary>
     public partial class CustomerHistoryPage : Page
     {
-        private Employee _currentUser;
-        private CustomerHistoryRepository _historyRepo;
+         Employee _currentUser;
+         CustomerHistoryRepository _historyRepo;
 
         // Constructor không tham số (cần cho WPF)
         public CustomerHistoryPage()
@@ -42,8 +42,8 @@ namespace FMartFUDAApp
             InitializeComponent();
             _currentUser = currentUser;
 
-            // Chỉ cho phép Manager (RoleId = 2) xem lịch sử
-            if (_currentUser.RoleId != 2)
+            // Chỉ cho phép Manager (RoleId = 3) xem lịch sử
+            if (_currentUser.RoleId != 3)
             {
                 MessageBox.Show("Bạn không có quyền xem lịch sử khách hàng!",
                                 "Permission Denied",
@@ -51,12 +51,14 @@ namespace FMartFUDAApp
                                 MessageBoxImage.Warning);
                 this.IsEnabled = false;
             }
+            else
+            {
+                // Khởi tạo repository để load dữ liệu từ bảng CustomerHistory
+                _historyRepo = new CustomerHistoryRepository();
 
-            // Khởi tạo repository để load dữ liệu từ bảng CustomerHistory
-            _historyRepo = new CustomerHistoryRepository();
-
-            // Khi trang đã load, ta gọi hàm LoadHistoryAsync
-            this.Loaded += CustomerHistoryPage_Loaded;
+                // Khi trang đã load, ta gọi hàm LoadHistoryAsync
+                this.Loaded += CustomerHistoryPage_Loaded;
+            }
         }
 
         private async void CustomerHistoryPage_Loaded(object sender, RoutedEventArgs e)
