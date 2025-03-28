@@ -37,7 +37,7 @@ namespace FMartFUDAApp
             Employee employee = await getUser(Email, Pass);
             if (employee!= null)
             {
-                if (employee.Role.RoleName == "Admin")
+                if (employee.Role.RoleName == "Administrator")
                 {
                     AdminWindow next = new AdminWindow(employee);
                     next.Show();

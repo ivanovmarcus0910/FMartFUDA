@@ -42,8 +42,8 @@
 
                 <!-- BUTTON CRUD -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20,0,0">
-                    <Button Name="btnAdd" Content="Thêm" Width="80" Height="35" Margin="5" Background="#4CAF50" Foreground="White"  />
-                    <Button Name="btnUpdate" Content="Sửa" Width="80" Height="35" Margin="5" Background="#FFC107" Foreground="White"/>
+                    <Button Name="btnAdd" Content="Thêm" Width="80" Height="35" Margin="5" Background="#4CAF50" Foreground="White" Click="btnAdd_Click"  />
+                    <Button Name="btnUpdate" Content="Sửa" Width="80" Height="35" Margin="5" Background="#FFC107" Foreground="White" Click="btnUpdate_Click_1"/>
                     <Button Name="btnDelete" Content="Xóa" Width="80" Height="35" Margin="5" Background="#F44336" Foreground="White"/>
                 </StackPanel>
             </StackPanel>
@@ -61,15 +61,15 @@
             <Border Background="White" CornerRadius="10" Padding="10" Grid.Row="0" Margin="0,0,0,10">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBox Name="txtSearchName" Width="200" Height="30"/>
-                    <Button Name="btnSearch" Content="Tìm kiếm" Width="100" Height="30" Margin="5,0,10,0" Background="#2196F3" Foreground="White" />
-                   <!-- <ComboBox Name="cboFilterRole" Width="150" Height="30" />
-                    <Button Name="btnFilter" Content="Lọc" Width="80" Height="30" Margin="5,0,0,0" Background="#FF9800" Foreground="White" Click="btnFilter_Click"/> -->
+                    <Button Name="btnSearch" Content="Tìm kiếm" Width="100" Height="30" Margin="5,0,10,0" Background="#2196F3" Foreground="White" Click="btnSearch_Click" />
+                    <ComboBox Name="cboFilterStatus" Width="150" Height="30" />
+                    <Button Name="btnFilter" Content="Lọc" Width="80" Height="30" Margin="5,0,0,0" Background="#FF9800" Foreground="White" Click="btnFilter_Click"/> 
                 </StackPanel>
             </Border>
 
             <!-- DATAGRID HIỂN THỊ NHÂN VIÊN -->
             <Border Background="White" CornerRadius="10" Padding="15" Grid.Row="1">
-                <DataGrid Name="dgEmployee" AutoGenerateColumns="False" 
+                <DataGrid Name="dgEmployee" AutoGenerateColumns="False" SelectionChanged="dgEmployee_SelectionChanged" 
                   >
                     <!-- Giảm chiều cao nếu cần -->
                     <DataGrid.Columns>

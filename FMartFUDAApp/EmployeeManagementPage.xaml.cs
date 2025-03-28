@@ -119,7 +119,8 @@ namespace FMartFUDAApp
                     string.IsNullOrWhiteSpace(txtEmployeeEmail.Text) ||
                     string.IsNullOrWhiteSpace(txtPass.Text) ||
                     dpEmployeeBirthDay.SelectedDate == null ||
-                    cboRole.SelectedValue == null)
+                   cboRole.SelectedValue == null ||
+                    cboStatus.SelectedValue == null)
                 {
                     MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
@@ -133,7 +134,9 @@ namespace FMartFUDAApp
                     EmployeeEmail = txtEmployeeEmail.Text.Trim(),
                     Pass = txtPass.Text,
                     EmployeeBirthDay = dpEmployeeBirthDay.SelectedDate.Value.ToString("yyyy-MM-dd"), // Định dạng ngày tháng
-                    RoleId = (int)cboRole.SelectedValue // Lấy ID của role đã chọn
+                    RoleId = (int)cboRole.SelectedValue, // Lấy ID của role đã chọn
+                    Status = cboStatus.SelectedItem as string 
+
                 };
 
                 // Gọi phương thức thêm vào CSDL
