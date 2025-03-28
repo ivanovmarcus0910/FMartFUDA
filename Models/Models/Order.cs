@@ -33,6 +33,6 @@ public partial class Order
     [InverseProperty("Orders")]
     public virtual Employee Employee { get; set; } = null!;
 
-    [InverseProperty("Oder")]
+    [InverseProperty("Order")]
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

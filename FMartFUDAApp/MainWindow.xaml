@@ -8,12 +8,9 @@
         Title="MainWindow" WindowState="Maximized" Background="#F5F5F5">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Customer Manage" Click="customer"/>
-            <MenuItem Header="Room Manage" Click="room"/>
-            <MenuItem Header="Booking Manage" Click="booking"/>
-            <MenuItem Header="Booking Detail Manage" Click="bookingDetail"/>
-
-            <MenuItem Header="Create Report" Click="report"/>
+            <MenuItem Header="Customer Manager" Click="CustomerManagement"/>
+            <MenuItem Header="Order Manager" Click="OrderManagement"/>
+            <MenuItem Header="ManagerManagement" Click="FinancialManagement"/>
 
         </Menu>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
