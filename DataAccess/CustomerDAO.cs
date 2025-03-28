@@ -70,7 +70,7 @@ namespace DataAccess
         public async Task<IEnumerable<Customer>> GetAllAsync()
         {
             //return await _context.Set<Employee>().ToListAsync();
-            return await _context.Employees
+            return await _context.Customers
                //.Include(st => st.Category)
                .ToListAsync();
         }
@@ -80,7 +80,7 @@ namespace DataAccess
         }
 
         // Example of a more complex query (you would add these as needed)
-        public async Task<IEnumerable<Customer>> FindByConditionAsync(Expression<Func<Employee, bool>> predicate)
+        public async Task<IEnumerable<Customer>> FindByConditionAsync(Expression<Func<Customer, bool>> predicate)
         {
             return await _context.Set<Customer>().Where(predicate).ToListAsync();
         }
