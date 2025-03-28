@@ -5,8 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FMartFUDAApp"
         mc:Ignorable="d"
-        Title="Login" Height="450" Width="800">
+        Title="Login" Height="350" Width="300">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <!-- Tiêu đề -->
+        <TextBlock Text="FUMiniHotelSystem Login"
+                FontSize="22" FontWeight="Bold" Foreground="#2C3E50"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                Margin="0,10,0,20"/>
+
+        <!-- Email -->
+        <TextBlock Grid.Row="1" Text="Email:" Foreground="#34495E"
+                Margin="20,5,0,5"/>
+        <TextBox Grid.Row="2" x:Name="email" Height="35" 
+              Background="White" BorderBrush="Gray" BorderThickness="1"
+              Padding="8" VerticalContentAlignment="Center"
+              Margin="20,0,20,10"/>
+
+        <!-- Password -->
+        <TextBlock Grid.Row="3" Text="Password:" Foreground="#34495E"
+                Margin="20,5,0,5"/>
+        <PasswordBox Grid.Row="4" x:Name="password" Height="35"
+                  Background="White" BorderBrush="Gray" BorderThickness="1"
+                  Padding="8" VerticalContentAlignment="Center"
+                  Margin="20,0,20,20"/>
+
+        <!-- Nút Login -->
+        <Button Grid.Row="5" Content="Login" Width="100" Height="35"
+             Background="#1ABC9C" Foreground="White" FontWeight="Bold"
+             BorderThickness="0" Cursor="Hand"
+             HorizontalAlignment="Center" Click="login">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                     CornerRadius="8" Padding="8">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                   VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </Window>
