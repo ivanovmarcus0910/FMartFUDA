@@ -48,6 +48,10 @@ public partial class FmartFudaContext : DbContext
             entity.HasKey(e => e.HistoryId).HasName("PK__Customer__19BDBDB3DDBFF2DB");
 
             entity.Property(e => e.ActionDate).HasDefaultValueSql("(getdate())");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.CustomerHistories)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CustomerHistory_Employee");
         });
 
         modelBuilder.Entity<Employee>(entity =>
@@ -62,6 +66,10 @@ public partial class FmartFudaContext : DbContext
             entity.HasKey(e => e.HistoryId).HasName("PK__Employee__19BDBDB3743E7AB7");
 
             entity.Property(e => e.ActionDate).HasDefaultValueSql("(getdate())");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.EmployeeHistories)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EmployeeHistory_Employee");
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -77,6 +85,8 @@ public partial class FmartFudaContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
+            entity.Property(e => e.OrderPrice).HasDefaultValue(0.0);
+
             entity.HasOne(d => d.Oder).WithMany(p => p.OrderDetails)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_OrderDetail_Order");
@@ -91,10 +101,16 @@ public partial class FmartFudaContext : DbContext
             entity.HasKey(e => e.HistoryId).HasName("PK__OrderHis__19BDBDB30F459054");
 
             entity.Property(e => e.ActionDate).HasDefaultValueSql("(getdate())");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.OrderHistories)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OrderHistory_Employee");
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
+            entity.Property(e => e.Produc).IsFixedLength();
+
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Product_Category");
@@ -105,6 +121,10 @@ public partial class FmartFudaContext : DbContext
             entity.HasKey(e => e.HistoryId).HasName("PK__ProductH__19BDBDB3C5730CCA");
 
             entity.Property(e => e.ActionDate).HasDefaultValueSql("(getdate())");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.ProductHistories)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProductHistory_Employee");
         });
 
         OnModelCreatingPartial(modelBuilder);

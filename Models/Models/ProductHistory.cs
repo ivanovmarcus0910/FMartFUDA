@@ -25,4 +25,8 @@ public partial class ProductHistory
 
     [Column("changeDecription")]
     public string? ChangeDecription { get; set; }
+
+    [ForeignKey("EmployeeId")]
+    [InverseProperty("ProductHistories")]
+    public virtual Employee Employee { get; set; } = null!;
 }

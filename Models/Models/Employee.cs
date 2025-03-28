@@ -37,7 +37,19 @@ public partial class Employee
     public string Pass { get; set; } = null!;
 
     [InverseProperty("Employee")]
+    public virtual ICollection<CustomerHistory> CustomerHistories { get; set; } = new List<CustomerHistory>();
+
+    [InverseProperty("Employee")]
+    public virtual ICollection<EmployeeHistory> EmployeeHistories { get; set; } = new List<EmployeeHistory>();
+
+    [InverseProperty("Employee")]
+    public virtual ICollection<OrderHistory> OrderHistories { get; set; } = new List<OrderHistory>();
+
+    [InverseProperty("Employee")]
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    [InverseProperty("Employee")]
+    public virtual ICollection<ProductHistory> ProductHistories { get; set; } = new List<ProductHistory>();
 
     [ForeignKey("RoleId")]
     [InverseProperty("Employees")]

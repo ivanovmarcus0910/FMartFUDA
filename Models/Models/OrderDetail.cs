@@ -22,6 +22,9 @@ public partial class OrderDetail
     [Column("orderQuantity")]
     public int OrderQuantity { get; set; }
 
+    [Column("orderPrice")]
+    public double? OrderPrice { get; set; }
+
     [ForeignKey("OderId")]
     [InverseProperty("OrderDetails")]
     public virtual Order Oder { get; set; } = null!;
