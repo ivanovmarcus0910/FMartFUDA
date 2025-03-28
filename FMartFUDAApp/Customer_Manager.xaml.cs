@@ -103,6 +103,9 @@ namespace FMartFUDAApp
                     ChangeDecription = $"Thêm khách hàng: {newCustomer.CustomerName}"
                 });
 
+                MessageBox.Show("Thêm khách hàng thành công!", "Thông báo",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+
                 // Load lại danh sách
                 await LoadCustomersAsync();
 
@@ -141,6 +144,9 @@ namespace FMartFUDAApp
                         ChangeDecription = $"Cập nhật khách hàng: từ {oldName} thành {selected.CustomerName}"
                     });
 
+                    MessageBox.Show("Cập nhật khách hàng thành công!", "Thông báo",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+
                     // Load lại danh sách
                     await LoadCustomersAsync();
                     ClearForm();
@@ -175,6 +181,9 @@ namespace FMartFUDAApp
                             EmployeeId = _currentUser.EmployeeId,
                             ChangeDecription = $"Xoá khách hàng: {selected.CustomerName}"
                         });
+
+                        MessageBox.Show("Xoá khách hàng thành công!", "Thông báo",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                         await LoadCustomersAsync();
                         ClearForm();
                     }
