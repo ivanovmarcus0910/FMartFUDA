@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using Models.Models;
 namespace FMartFUDAApp
 {
     /// <summary>
@@ -19,9 +19,26 @@ namespace FMartFUDAApp
     /// </summary>
     public partial class FinancialManagement : Window
     {
-        public FinancialManagement()
+        Employee employeeCurrent;
+        public FinancialManagement(Employee x)
         {
             InitializeComponent();
+            employeeCurrent = x;
+        }
+
+        private void Revenue(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ManagerStaff(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FinacialReport(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FMartFUDAApp"
         mc:Ignorable="d"
-        Title="FinancialManagement" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="FinancialManagement" WindowState="Maximized" Background="#F5F5F5">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Revenue" Click="Revenue"/>
+            <MenuItem Header="ManagerStaff" Click="ManagerStaff"/>
+            <MenuItem Header="FinacialReport" Click="FinacialReport"/>
+
+        </Menu>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+
+    </DockPanel>
 </Window>

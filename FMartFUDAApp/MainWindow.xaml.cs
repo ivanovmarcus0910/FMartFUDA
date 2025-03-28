@@ -39,7 +39,9 @@ namespace FMartFUDAApp
 
         private void FinancialManagement(object sender, RoutedEventArgs e)
         {
-
+            FinancialManagement next = new FinancialManagement(employeeCurrent);
+            next.Show();
+            Close();
         }
     }
 }
