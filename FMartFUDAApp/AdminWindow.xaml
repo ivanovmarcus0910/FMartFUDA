@@ -8,7 +8,7 @@
                Title="Admin Window" WindowState="Maximized">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Quản lý nhân viên"   />
+            <MenuItem Header="Quản lý nhân viên"  Click="OpenPage1" />
             <MenuItem Header="Log out"  />
 
         </Menu>

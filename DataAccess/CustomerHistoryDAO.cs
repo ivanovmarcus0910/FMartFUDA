@@ -1,20 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Models.Models;
+
 namespace DataAccess
 {
-    public class EmployeeDAO : SingletonBase<EmployeeDAO>
+    public class CustomerHistoryDAO : SingletonBase<CustomerHistoryDAO>
     {
-        public async Task<Employee> AddAsync(Employee entity)
+        public async Task<CustomerHistory> AddAsync(CustomerHistory entity)
         {
             try
             {
-                var entityEntry = await _context.Set<Employee>().AddAsync(entity);
+                var entityEntry = await _context.Set<CustomerHistory>().AddAsync(entity);
                 await _context.SaveChangesAsync();
                 return entityEntry.Entity; // Return the added entity
             }
@@ -25,11 +26,11 @@ namespace DataAccess
                 throw; // Re-throw after logging
             }
         }
-        public async Task<Employee> UpdateAsync(Employee entity)
+        public async Task<CustomerHistory> UpdateAsync(CustomerHistory entity)
         {
             try
             {
-                _context.Set<Employee>().Update(entity); // More efficient than attaching and setting values
+                _context.Set<CustomerHistory>().Update(entity); // More efficient than attaching and setting values
                 await _context.SaveChangesAsync();
                 return entity; // Return the updated entity
             }
@@ -66,22 +67,23 @@ namespace DataAccess
         }
 
 
-        public async Task<IEnumerable<Employee>> GetAllAsync()
+        public async Task<IEnumerable<CustomerHistory>> GetAllAsync()
         {
             //return await _context.Set<Employee>().ToListAsync();
-            return await _context.Set<Employee>()
-               .Include(st => st.Role)
+            return await _context.CustomerHistories
+               //.Include(st => st.Category)
                .ToListAsync();
         }
-        public async Task<Employee> GetByIdAsync(int id)
+        public async Task<CustomerHistory> GetByIdAsync(int id)
         {
-            return await _context.Set<Employee>().FindAsync(id); // Use FindAsync
+            return await _context.Set<CustomerHistory>().FindAsync(id); // Use FindAsync
         }
 
         // Example of a more complex query (you would add these as needed)
-        public async Task<IEnumerable<Employee>> FindByConditionAsync(Expression<Func<Employee, bool>> predicate)
+        public async Task<IEnumerable<CustomerHistory>> FindByConditionAsync(Expression<Func<CustomerHistory, bool>> predicate)
         {
-            return await _context.Set<Employee>().Where(predicate).ToListAsync();
+            return await _context.Set<CustomerHistory>().Where(predicate).ToListAsync();
         }
     }
 }
+
