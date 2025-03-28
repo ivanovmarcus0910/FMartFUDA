@@ -70,7 +70,7 @@ namespace DataAccess
         {
             //return await _context.Set<Employee>().ToListAsync();
             return await _context.Employees
-               //.Include(st => st.Category)
+               .Include(st => st.Role)
                .ToListAsync();
         }
         public async Task<Employee> GetByIdAsync(int id)

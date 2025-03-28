@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Models.Models;
+using Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +21,69 @@ namespace FMartFUDAApp
     /// </summary>
     public partial class Login : Window
     {
+        EmployeeRepository employeeRepo;
         public Login()
         {
-            InitializeComponent();
 
+            InitializeComponent();
+            employeeRepo = new EmployeeRepository();
+
+        }
+
+        private async void login(object sender, RoutedEventArgs e)
+        {
+            string Email = email.Text;
+            string Pass = password.Password;
+            Employee employee = await getUser(Email, Pass);
+            if (employee!= null)
+            {
+                if (employee.Role.RoleName == "Admin")
+                {
+                    MainWindow next = new MainWindow(employee);
+                    next.Show();
+                    Close();
+                }
+                else
+                {
+                    MainWindow next = new MainWindow(employee);
+                    next.Show();
+
+                    Close();
+                }    
+            }
+        }
+        private async Task<Employee> getUser(string Email, string Pass)
+        {
+            try
+            {
+                var list = await employeeRepo.GetAllAsync();
+                Employee _user = (from c in list
+                       where c.EmployeeEmail == Email   
+                       select c).FirstOrDefault();
+                if (_user != null)
+                {
+                    if (_user.Pass==Pass)
+                    {
+                        return _user;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sai mật khẩu!");
+                        return null;
+                    }    
+                }
+                else
+                {
+                    MessageBox.Show("Sai email đăng nhập!");
+                    return null;
+                }    
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+            
         }
     }
 }
