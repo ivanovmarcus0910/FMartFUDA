@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Models.Models;
+using Repositories;
 
 namespace FMartFUDAApp
 {
@@ -20,9 +23,44 @@ namespace FMartFUDAApp
     /// </summary>
     public partial class OrderDetailManagement : Page
     {
-        public OrderDetailManagement()
+        private OrderDetailRepository orderDetailRepository;
+        private OrderRepository orderRepository;
+        private Order order;
+        private CustomerRepository customerRepository;
+        private Employee employee;
+        public OrderDetailManagement(Order o, Employee e)
         {
             InitializeComponent();
+            orderDetailRepository = new OrderDetailRepository();
+            orderRepository = new OrderRepository();
+            order = o;
+            employee = e;
+            customerRepository = new CustomerRepository();
+            LoadData();
+        }
+
+        private async void LoadData()
+        {
+            txtOrderIDHeader.Text = order.OrderId.ToString();
+            var customer = await customerRepository.GetByIdAsync(order.CustomerId);
+            txtBuyer.Text = customer.CustomerName;
+            txtCreator.Text = employee.EmployeeName;
+            txtNgayTao.Text = order.OrderDate.ToString("dd/MM/yyyy");
+            txtTongCong.Text = order.OrderAmount.ToString();
+            var orderDetails = await orderDetailRepository.GetAllByOrderIdAsync(order.OrderId);
+            OrderDetailGrid.ItemsSource = orderDetails;
+        }
+
+        private void OrderDetailGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (OrderDetailGrid.SelectedItem is OrderDetail selectedDetail)
+            {
+                txtSTT.Text = selectedDetail.OrderDetailId.ToString();
+                txtOrderID.Text = selectedDetail.OrderId.ToString();
+                txtProductID.Text = selectedDetail.ProductId.ToString();
+                txtOrderQuantity.Text = selectedDetail.OrderQuantity.ToString();
+                txtOrderPrice.Text = selectedDetail.OrderPrice.ToString();
+            }
         }
 
         private void btnCreate_Click(object sender, RoutedEventArgs e)

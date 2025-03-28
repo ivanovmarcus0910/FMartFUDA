@@ -68,11 +68,12 @@
         </StackPanel>
 
         <!-- Bảng Chi tiết đơn hàng -->
-        <DataGrid x:Name="OrderDetailGrid" Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" SelectionMode="Single" Margin="10" FontSize="14">
+        <DataGrid x:Name="OrderDetailGrid" Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" 
+                  SelectionMode="Single" Margin="10" FontSize="14" SelectionChanged="OrderDetailGrid_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="STT" Binding="{Binding OrderDetailID}" Width="*"/>
-                <DataGridTextColumn Header="Mã đơn hàng" Binding="{Binding OrderID}" Width="*"/>
-                <DataGridTextColumn Header="Mã sản phẩm" Binding="{Binding ProductID}" Width="*"/>
+                <DataGridTextColumn Header="STT" Binding="{Binding OrderDetailId}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Mã đơn hàng" Binding="{Binding OrderId}" Width="*"/>
+                <DataGridTextColumn Header="Mã sản phẩm" Binding="{Binding ProductId}" Width="*"/>
                 <DataGridTextColumn Header="Số lượng" Binding="{Binding OrderQuantity}" Width="*"/>
                 <DataGridTextColumn Header="Đơn giá" Binding="{Binding OrderPrice}" Width="*"/>
             </DataGrid.Columns>

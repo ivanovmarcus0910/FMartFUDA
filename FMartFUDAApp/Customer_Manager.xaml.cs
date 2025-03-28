@@ -16,6 +16,7 @@ namespace FMartFUDAApp
     {
         CustomerRepository _repository;
         Employee _currentUser;
+        CustomerHistoryRepository _historyRepo; // Để ghi log
 
         public Customer_Manager()
         {
@@ -28,6 +29,7 @@ namespace FMartFUDAApp
 
             // Nếu muốn vẫn dùng repository (dù không có user), bạn có thể khởi tạo:
             _repository = new CustomerRepository();
+            _historyRepo = new CustomerHistoryRepository();
 
             // Hoặc bỏ qua, tuỳ nhu cầu
         }
@@ -51,6 +53,7 @@ namespace FMartFUDAApp
 
             // Khởi tạo repository
             _repository = new CustomerRepository();
+            _historyRepo = new CustomerHistoryRepository();
 
             // Sự kiện Loaded sẽ gọi hàm load data
             this.Loaded += Customer_Manager_Loaded;
@@ -91,6 +94,15 @@ namespace FMartFUDAApp
 
                 await _repository.AddAsync(newCustomer);
 
+                // Ghi log
+                await _historyRepo.AddAsync(new CustomerHistory
+                {
+                    ActionType = "Add",
+                    ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                    EmployeeId = _currentUser.EmployeeId,
+                    ChangeDecription = $"Thêm khách hàng: {newCustomer.CustomerName}"
+                });
+
                 // Load lại danh sách
                 await LoadCustomersAsync();
 
@@ -111,6 +123,7 @@ namespace FMartFUDAApp
                 // Lấy khách hàng đang chọn trên DataGrid
                 if (dgCustomers.SelectedItem is Customer selected)
                 {
+                    string oldName = selected.CustomerName;
                     // Cập nhật thông tin từ form
                     selected.CustomerName = txtCustomerName.Text;
                     selected.CustomerPhone = txtCustomerPhone.Text;
@@ -118,6 +131,15 @@ namespace FMartFUDAApp
                     selected.CustomerEmail = txtCustomerEmail.Text;
 
                     await _repository.UpdateAsync(selected);
+
+                    // Ghi log
+                    await _historyRepo.AddAsync(new CustomerHistory
+                    {
+                        ActionType = "Update",
+                        ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                        EmployeeId = _currentUser.EmployeeId,
+                        ChangeDecription = $"Cập nhật khách hàng: từ {oldName} thành {selected.CustomerName}"
+                    });
 
                     // Load lại danh sách
                     await LoadCustomersAsync();
@@ -142,9 +164,18 @@ namespace FMartFUDAApp
                 // Lấy khách hàng đang chọn
                 if (dgCustomers.SelectedItem is Customer selected)
                 {
-                    var result = await _repository.DeleteAsync(selected.CustomerId);
+                    bool result = await _repository.DeleteAsync(selected.CustomerId);
                     if (result)
                     {
+                        // Ghi log
+                        await _historyRepo.AddAsync(new CustomerHistory
+                        {
+                            ActionType = "Delete",
+                            ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                            EmployeeId = _currentUser.EmployeeId,
+                            ChangeDecription = $"Xoá khách hàng: {selected.CustomerName}"
+                        });
+
                         await LoadCustomersAsync();
                         ClearForm();
                     }
