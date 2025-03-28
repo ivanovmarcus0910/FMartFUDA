@@ -180,5 +180,40 @@ namespace FMartFUDAApp
             }
 
         }
+
+        private async void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            var list = await EmployeeRepository.GetAllAsync();
+            list = from x in list
+                   where x.EmployeeName.Contains(txtSearchName.Text)
+                   select x;                
+            dgEmployee.ItemsSource = null;
+            dgEmployee.ItemsSource = list;
+
+        }
+
+        private async void btnFilter_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var list = await EmployeeRepository.GetAllAsync();
+
+                // Kiểm tra nếu đã chọn Role trong ComboBox
+                if (cboRole.SelectedValue != null)
+                {
+                    int selectedRoleId = (int)cboRole.SelectedValue;
+                    list = list.Where(x => x.RoleId == selectedRoleId).ToList();
+                }
+
+                // Cập nhật danh sách hiển thị
+                dgEmployee.ItemsSource = null;
+                dgEmployee.ItemsSource = list;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
     }
 }
