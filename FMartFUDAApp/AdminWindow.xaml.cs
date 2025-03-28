@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,13 @@ namespace FMartFUDAApp
     /// </summary>
     public partial class AdminWindow : Window
     {
-        public AdminWindow()
+        Employee employeeCurrent;
+
+        public AdminWindow(Employee employee)
         {
             InitializeComponent();
+            employeeCurrent = employee;
+
         }
     }
 }

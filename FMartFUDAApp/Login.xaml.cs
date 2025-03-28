@@ -39,7 +39,7 @@ namespace FMartFUDAApp
             {
                 if (employee.Role.RoleName == "Admin")
                 {
-                    MainWindow next = new MainWindow(employee);
+                    AdminWindow next = new AdminWindow(employee);
                     next.Show();
                     Close();
                 }
