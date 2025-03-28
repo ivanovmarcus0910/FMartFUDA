@@ -1,6 +1,4 @@
-﻿using Models.Models;
-using Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,26 +10,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace FMartFUDAApp
 {
     /// <summary>
-    /// Interaction logic for AdminWindow.xaml
+    /// Interaction logic for EmployeeManagementPage.xaml
     /// </summary>
-    public partial class AdminWindow : Window
+    public partial class EmployeeManagementPage : Page
     {
-        Employee employeeCurrent;
-
-        public AdminWindow(Employee employee)
+        public EmployeeManagementPage()
         {
             InitializeComponent();
-            employeeCurrent = employee;
-            MainFrame.Navigate(new EmployeeManagementPage());
         }
 
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
 
-
-
+        }
     }
 }

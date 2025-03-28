@@ -1,0 +1,65 @@
+﻿<Page x:Class="FMartFUDAApp.EmployeeManagementPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FMartFUDAApp"
+       Background="White">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- FORM NHẬP THÔNG TIN -->
+        <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,15,0" Grid.Column="0">
+            <StackPanel>
+                <TextBlock Text="Quản lý Nhân viên" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="0,0,0,15"/>
+
+                <Label Content="ID:"/>
+                <TextBox Name="txtEmployeeID" IsReadOnly="True" Background="#E0E0E0"/>
+
+                <Label Content="Tên:"/>
+                <TextBox Name="txtEmployeeName"/>
+
+                <Label Content="Số điện thoại:"/>
+                <TextBox Name="txtEmployeePhone"/>
+
+                <Label Content="Email:"/>
+                <TextBox Name="txtEmployeeEmail"/>
+
+                <Label Content="Ngày sinh:"/>
+                <DatePicker Name="dpEmployeeBirthDay"/>
+
+                <Label Content="Role:"/>
+                <ComboBox Name="CboRole"/>
+
+                <Label Content="Mật khẩu:"/>
+                <PasswordBox Name="txtPass"/>
+
+                <!-- BUTTON CRUD -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20,0,0">
+                    <Button Name="btnAdd" Content="Thêm" Width="80" Height="35" Margin="5" Background="#4CAF50" Foreground="White" />
+                    <Button Name="btnUpdate" Content="Sửa" Width="80" Height="35" Margin="5" Background="#FFC107" Foreground="White"/>
+                    <Button Name="btnDelete" Content="Xóa" Width="80" Height="35" Margin="5" Background="#F44336" Foreground="White"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- DATAGRID HIỂN THỊ NHÂN VIÊN -->
+        <Border Background="White" CornerRadius="10" Padding="15" Grid.Column="1">
+            <DataGrid Name="dgEmployee" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding employeeID}" Width="50"/>
+                    <DataGridTextColumn Header="Tên" Binding="{Binding employeeName}" Width="150"/>
+                    <DataGridTextColumn Header="SĐT" Binding="{Binding employeePhone}" Width="120"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding employeeEmail}" Width="180"/>
+                    <DataGridTextColumn Header="Ngày sinh" Binding="{Binding employeeBirthDay, StringFormat=dd/MM/yyyy}" Width="120"/>
+                    <DataGridTextColumn Header="Role ID" Binding="{Binding roleID}" Width="80"/>
+                    <DataGridTextColumn Header="Mật khẩu" Binding="{Binding pass}" Width="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</Page>
