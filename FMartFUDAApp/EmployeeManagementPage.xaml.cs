@@ -31,6 +31,7 @@ namespace FMartFUDAApp
             RoleRepository = new RoleRepository();
             showData();
             LoadComboRole();
+            
         }
         public async void showData()
         {
@@ -42,10 +43,24 @@ namespace FMartFUDAApp
         public async void LoadComboRole()
         {
             var list = await RoleRepository.GetAllAsync();
+
+            // Gán danh sách cho cboRole
             cboRole.ItemsSource = null;
             cboRole.ItemsSource = list;
             cboRole.DisplayMemberPath = "RoleName";
             cboRole.SelectedValuePath = "RoleId";
+
+            // Tạo bản sao danh sách cho cboFilterRole
+            var filterList = list.Select(role => new Role
+            {
+                RoleId = role.RoleId,
+                RoleName = role.RoleName
+            }).ToList();
+
+            cboFilterRole.ItemsSource = null;
+            cboFilterRole.ItemsSource = filterList;
+            cboFilterRole.DisplayMemberPath = "RoleName";
+            cboFilterRole.SelectedValuePath = "RoleId";
         }
 
         private async void dgEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -199,9 +214,9 @@ namespace FMartFUDAApp
                 var list = await EmployeeRepository.GetAllAsync();
 
                 // Kiểm tra nếu đã chọn Role trong ComboBox
-                if (cboRole.SelectedValue != null)
+                if (cboFilterRole.SelectedValue != null)
                 {
-                    int selectedRoleId = (int)cboRole.SelectedValue;
+                    int selectedRoleId = (int)cboFilterRole.SelectedValue;
                     list = list.Where(x => x.RoleId == selectedRoleId).ToList();
                 }
 
@@ -215,5 +230,7 @@ namespace FMartFUDAApp
             }
 
         }
+
+       
     }
 }

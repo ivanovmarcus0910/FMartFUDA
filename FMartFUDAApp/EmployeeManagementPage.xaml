@@ -61,7 +61,7 @@
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBox Name="txtSearchName" Width="200" Height="30"/>
                     <Button Name="btnSearch" Content="Tìm kiếm" Width="100" Height="30" Margin="5,0,10,0" Background="#2196F3" Foreground="White" Click="btnSearch_Click"/>
-                    <ComboBox Name="cboFilterRole" Width="150" Height="30"/>
+                    <ComboBox Name="cboFilterRole" Width="150" Height="30" />
                     <Button Name="btnFilter" Content="Lọc" Width="80" Height="30" Margin="5,0,0,0" Background="#FF9800" Foreground="White" Click="btnFilter_Click"/>
                 </StackPanel>
             </Border>
