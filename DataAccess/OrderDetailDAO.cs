@@ -74,7 +74,7 @@ namespace DataAccess
 
         public async Task<IEnumerable<OrderDetail>> GetAllByOrderIdAsync(int id)
         {
-            return await _context.Set<OrderDetail>().Include(o => o.OrderId == id).ToListAsync();
+            return await _context.Set<OrderDetail>().Where(o => o.OrderId == id).Include(o => o.Order).ToListAsync();
         }
 
         public async Task<OrderDetail> GetByIdAsync(int id)

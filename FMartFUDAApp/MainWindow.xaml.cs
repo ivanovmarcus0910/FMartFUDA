@@ -34,11 +34,11 @@ namespace FMartFUDAApp
 
         private void OrderManagement(object sender, RoutedEventArgs e)
         {
-
+            MainFrame.Navigate(new OrderManagement(employeeCurrent));
         }
         private void OrderDetailManagement(object sender, RoutedEventArgs e)
         {
-
+            //MainFrame.Navigate(new OrderDetailManagement(employeeCurrent));
         }
         private void CategoryManagement(object sender, RoutedEventArgs e)
         {

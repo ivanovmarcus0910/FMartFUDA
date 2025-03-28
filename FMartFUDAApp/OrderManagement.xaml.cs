@@ -125,7 +125,7 @@ namespace FMartFUDAApp
         {
             if (((Button)sender).DataContext is Order selectedOrder)
             {
-                NavigationService.Navigate(new OrderDetailManagement(selectedOrder));
+                NavigationService.Navigate(new OrderDetailManagement(selectedOrder, employee));
             }
         }
 
