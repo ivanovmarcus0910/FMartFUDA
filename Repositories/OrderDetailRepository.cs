@@ -12,27 +12,42 @@ namespace Repositories
     {
         public async Task<IEnumerable<OrderDetail>> GetAllAsync()
         {
-            return await OrderDetailDAO.Instance.GetAllAsync(); // Correct: await the async method
+            return await OrderDetailDAO.Instance.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<OrderDetail>> GetAllByOrderIdAsync(int orderId)
+        {
+            return await OrderDetailDAO.Instance.GetAllByOrderIdAsync(orderId);
         }
 
         public async Task<OrderDetail> GetByIdAsync(int id)
         {
-            return await OrderDetailDAO.Instance.GetByIdAsync(id); // Correct: await the async method
+            throw new NotImplementedException("Use GetByIdAsync(int orderDetailId, int orderId) instead.");
+        }
+
+        public async Task<OrderDetail> GetByIdAsync(int orderDetailId, int orderId)
+        {
+            return await OrderDetailDAO.Instance.GetByIdAsync(orderDetailId, orderId);
         }
 
         public async Task<OrderDetail> AddAsync(OrderDetail entity)
         {
-            return await OrderDetailDAO.Instance.AddAsync(entity); // Call the base AddAsync
+            return await OrderDetailDAO.Instance.AddAsync(entity);
         }
 
         public async Task<OrderDetail> UpdateAsync(OrderDetail entity)
         {
-            return await OrderDetailDAO.Instance.UpdateAsync(entity); // Correct: await and return
+            return await OrderDetailDAO.Instance.UpdateAsync(entity);
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            return await OrderDetailDAO.Instance.DeleteAsync(id); // Correct: await and return
+            throw new NotImplementedException("Use DeleteAsync(int orderDetailId, int orderId) instead.");
+        }
+
+        public async Task<bool> DeleteAsync(int orderDetailId, int orderId)
+        {
+            return await OrderDetailDAO.Instance.DeleteAsync(orderDetailId, orderId);
         }
     }
 }

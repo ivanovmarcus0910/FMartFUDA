@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Models.Models;
+using Repositories;
 
 namespace FMartFUDAApp
 {
@@ -20,29 +23,150 @@ namespace FMartFUDAApp
     /// </summary>
     public partial class OrderDetailManagement : Page
     {
-        public OrderDetailManagement()
+        private OrderDetailRepository orderDetailRepository;
+        private OrderRepository orderRepository;
+        private Order order;
+        private CustomerRepository customerRepository;
+        private Employee employee;
+        private ProductRepository productRepository;
+        public OrderDetailManagement(Order o, Employee e)
         {
             InitializeComponent();
+            orderDetailRepository = new OrderDetailRepository();
+            orderRepository = new OrderRepository();
+            order = o;
+            employee = e;
+            customerRepository = new CustomerRepository();
+            productRepository = new ProductRepository();
+            LoadData();
         }
 
-        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        private async void LoadData()
         {
-
+            txtOrderIDHeader.Text = order.OrderId.ToString();
+            var customer = await customerRepository.GetByIdAsync(order.CustomerId);
+            txtBuyer.Text = customer.CustomerName;
+            txtCreator.Text = employee.EmployeeName;
+            txtNgayTao.Text = order.OrderDate.ToString("dd/MM/yyyy");
+            txtTongCong.Text = order.OrderAmount.ToString();
+            var orderDetails = await orderDetailRepository.GetAllByOrderIdAsync(order.OrderId);
+            OrderDetailGrid.ItemsSource = orderDetails;
         }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private async void OrderDetailGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (OrderDetailGrid.SelectedItem is OrderDetail selectedDetail)
+            {
+                txtSTT.Text = selectedDetail.OrderDetailId.ToString();
+                txtProductID.Text = selectedDetail.ProductId.ToString();
+                var product = await productRepository.GetByIdAsync(selectedDetail.ProductId);
+                txtProductName.Text = product.ProductName;
+                txtOrderQuantity.Text = selectedDetail.OrderQuantity.ToString();
+                txtOrderPrice.Text = selectedDetail.OrderPrice.ToString();
+            }
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private async void txtProductID_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (int.TryParse(txtProductID.Text, out int productId))
+            {
+                var product = await productRepository.GetByIdAsync(productId);
+                txtProductName.Text = product?.ProductName ?? "Không tìm thấy sản phẩm";
+            }
+        }
 
+        private async void btnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            if (!int.TryParse(txtProductID.Text, out int productId) ||
+                !int.TryParse(txtOrderQuantity.Text, out int quantity) ||
+                !double.TryParse(txtOrderPrice.Text, out double price))
+            {
+                MessageBox.Show("Dữ liệu nhập không hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var newOrderDetail = new OrderDetail
+            {
+                OrderId = order.OrderId,
+                ProductId = productId,
+                OrderQuantity = quantity,
+                OrderPrice = price
+            };
+
+            await orderDetailRepository.AddAsync(newOrderDetail);
+            order.OrderAmount += price; 
+            await orderRepository.UpdateAsync(order);
+            LoadData();
+            MessageBox.Show("Thêm chi tiết đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrderDetailGrid.SelectedItem is not OrderDetail selectedDetail)
+            {
+                MessageBox.Show("Vui lòng chọn một mục để cập nhật!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!int.TryParse(txtProductID.Text, out int productId) ||
+                !int.TryParse(txtOrderQuantity.Text, out int quantity) ||
+                !double.TryParse(txtOrderPrice.Text, out double price))
+            {
+                MessageBox.Show("Dữ liệu nhập không hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            selectedDetail.ProductId = productId;
+            selectedDetail.OrderQuantity = quantity;
+            selectedDetail.OrderPrice = price;
+
+            await orderDetailRepository.UpdateAsync(selectedDetail);
+            LoadData();
+            MessageBox.Show("Cập nhật chi tiết đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrderDetailGrid.SelectedItem is not OrderDetail selectedDetail)
+            {
+                MessageBox.Show("Vui lòng chọn một mục để xóa!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show("Bạn có chắc muốn xóa chi tiết đơn hàng này?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                await orderDetailRepository.DeleteAsync(selectedDetail.OrderDetailId, selectedDetail.OrderId);
+                LoadData();
+                MessageBox.Show("Xóa chi tiết đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationService?.GoBack();
         }
+
+        private async void txtOrderQuantity_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!int.TryParse(txtProductID.Text, out int productId) ||
+                !int.TryParse(txtOrderQuantity.Text, out int quantity))
+            {
+                txtOrderPrice.Text = "0";
+                return;
+            }
+
+            var product = await productRepository.GetByIdAsync(productId);
+            if (product != null)
+            {
+                double totalPrice = product.ProductPrice * quantity;
+                txtOrderPrice.Text = totalPrice.ToString("F2");
+            }
+            else
+            {
+                txtOrderPrice.Text = "0";
+            }
+        }
+
     }
 }

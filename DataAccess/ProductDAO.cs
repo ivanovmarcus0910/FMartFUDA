@@ -75,7 +75,10 @@ namespace DataAccess
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await _context.Set<Product>().FindAsync(id); // Use FindAsync
+            using (var context = new FmartFudaContext())
+            {
+                return await context.Set<Product>().FindAsync(id);
+            }
         }
 
         // Example of a more complex query (you would add these as needed)

@@ -68,11 +68,12 @@
         </StackPanel>
 
         <!-- Bảng Chi tiết đơn hàng -->
-        <DataGrid x:Name="OrderDetailGrid" Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" SelectionMode="Single" Margin="10" FontSize="14">
+        <DataGrid x:Name="OrderDetailGrid" Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" 
+                  SelectionMode="Single" Margin="10" FontSize="14" SelectionChanged="OrderDetailGrid_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="STT" Binding="{Binding OrderDetailID}" Width="*"/>
-                <DataGridTextColumn Header="Mã đơn hàng" Binding="{Binding OrderID}" Width="*"/>
-                <DataGridTextColumn Header="Mã sản phẩm" Binding="{Binding ProductID}" Width="*"/>
+                <DataGridTextColumn Header="STT" Binding="{Binding OrderDetailId}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Mã sản phẩm" Binding="{Binding ProductId}" Width="*"/>
+                <DataGridTextColumn Header="Tên sản phẩm" Binding="{Binding Product.ProductName}" Width="*"/>
                 <DataGridTextColumn Header="Số lượng" Binding="{Binding OrderQuantity}" Width="*"/>
                 <DataGridTextColumn Header="Đơn giá" Binding="{Binding OrderPrice}" Width="*"/>
             </DataGrid.Columns>
@@ -106,21 +107,21 @@
             <TextBlock Text="Số thứ tự:" Grid.Row="0" Grid.Column="0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
             <TextBox x:Name="txtSTT" Grid.Row="0" Grid.Column="2" Width="200" FontSize="14" IsReadOnly="True" Margin="0,10,0,0"/>
 
-            <!-- Mã đơn hàng -->
-            <TextBlock Text="Mã đơn hàng:" Grid.Row="1" Grid.Column="0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
-            <TextBox x:Name="txtOrderID" Grid.Row="1" Grid.Column="2" Width="200" FontSize="14" Margin="0,10,0,0"/>
-
             <!-- Mã sản phẩm -->
-            <TextBlock Text="Mã sản phẩm:" Grid.Row="2" Grid.Column="0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
-            <TextBox x:Name="txtProductID" Grid.Row="2" Grid.Column="2" Width="200" FontSize="14" Margin="0,10,0,0"/>
+            <TextBlock Text="Mã sản phẩm:" Grid.Row="1" Grid.Column="0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtProductID" Grid.Row="1" Grid.Column="2" Width="200" FontSize="14" Margin="0,10,0,0" TextChanged="txtProductID_TextChanged"/>
+            
+            <!-- Tên sản phẩm -->
+            <TextBlock Text="Tên sản phẩm:" Grid.Row="2" Grid.Column="0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtProductName" Grid.Row="2" Grid.Column="2" Width="200" FontSize="14" Margin="0,10,0,0" IsReadOnly="True"/>
 
             <!-- Số lượng -->
             <TextBlock Text="Số lượng:" Grid.Row="3" Grid.Column="0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
-            <TextBox x:Name="txtOrderQuantity" Grid.Row="3" Grid.Column="2" Width="200" FontSize="14" Margin="0,10,0,0"/>
+            <TextBox x:Name="txtOrderQuantity" Grid.Row="3" Grid.Column="2" Width="200" FontSize="14" Margin="0,10,0,0" TextChanged="txtOrderQuantity_TextChanged"/>
 
             <!-- Đơn giá -->
             <TextBlock Text="Đơn giá:" Grid.Row="4" Grid.Column="0" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
-            <TextBox x:Name="txtOrderPrice" Grid.Row="4" Grid.Column="2" Width="200" FontSize="14" Margin="0,10,0,0"/>
+            <TextBox x:Name="txtOrderPrice" Grid.Row="4" Grid.Column="2" Width="200" FontSize="14" Margin="0,10,0,0" IsReadOnly="True"/>
         </Grid>
 
         <!-- Nút điều khiển -->
