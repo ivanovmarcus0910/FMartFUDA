@@ -29,8 +29,14 @@ namespace FMartFUDAApp
             employeeCurrent = employee;
             MainFrame.Navigate(new EmployeeManagementPage());
         }
+     
+  
+  
+        private void OpenPage1(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new EmployeeManagementPage());
 
-
+        }
 
 
     }

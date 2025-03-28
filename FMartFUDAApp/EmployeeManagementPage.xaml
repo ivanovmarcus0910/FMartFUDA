@@ -33,15 +33,15 @@
                 <DatePicker Name="dpEmployeeBirthDay"/>
 
                 <Label Content="Role:"/>
-                <ComboBox Name="CboRole"/>
+                <ComboBox Name="cboRole"/>
 
                 <Label Content="Mật khẩu:"/>
-                <PasswordBox Name="txtPass"/>
+                <TextBox Name="txtPass"/>
 
                 <!-- BUTTON CRUD -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20,0,0">
-                    <Button Name="btnAdd" Content="Thêm" Width="80" Height="35" Margin="5" Background="#4CAF50" Foreground="White" />
-                    <Button Name="btnUpdate" Content="Sửa" Width="80" Height="35" Margin="5" Background="#FFC107" Foreground="White"/>
+                    <Button Name="btnAdd" Content="Thêm" Width="80" Height="35" Margin="5" Background="#4CAF50" Foreground="White" Click="btnAdd_Click" />
+                    <Button Name="btnUpdate" Content="Sửa" Width="80" Height="35" Margin="5" Background="#FFC107" Foreground="White" Click="btnUpdate_Click"/>
                     <Button Name="btnDelete" Content="Xóa" Width="80" Height="35" Margin="5" Background="#F44336" Foreground="White"/>
                 </StackPanel>
             </StackPanel>
@@ -49,15 +49,15 @@
 
         <!-- DATAGRID HIỂN THỊ NHÂN VIÊN -->
         <Border Background="White" CornerRadius="10" Padding="15" Grid.Column="1">
-            <DataGrid Name="dgEmployee" AutoGenerateColumns="False">
+            <DataGrid Name="dgEmployee" AutoGenerateColumns="False" SelectionChanged="dgEmployee_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding employeeID}" Width="50"/>
-                    <DataGridTextColumn Header="Tên" Binding="{Binding employeeName}" Width="150"/>
-                    <DataGridTextColumn Header="SĐT" Binding="{Binding employeePhone}" Width="120"/>
-                    <DataGridTextColumn Header="Email" Binding="{Binding employeeEmail}" Width="180"/>
-                    <DataGridTextColumn Header="Ngày sinh" Binding="{Binding employeeBirthDay, StringFormat=dd/MM/yyyy}" Width="120"/>
-                    <DataGridTextColumn Header="Role ID" Binding="{Binding roleID}" Width="80"/>
-                    <DataGridTextColumn Header="Mật khẩu" Binding="{Binding pass}" Width="120"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding EmployeeId}" Width="50"/>
+                    <DataGridTextColumn Header="Tên" Binding="{Binding EmployeeName}" Width="150"/>
+                    <DataGridTextColumn Header="SĐT" Binding="{Binding EmployeePhone}" Width="120"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding EmployeeEmail}" Width="180"/>
+                    <DataGridTextColumn Header="Ngày sinh" Binding="{Binding EmployeeBirthDay, StringFormat=dd/MM/yyyy}" Width="120"/>
+                    <DataGridTextColumn Header="Role" Binding="{Binding Role.RoleName}" Width="80"/>
+                    <DataGridTextColumn Header="Mật khẩu" Binding="{Binding Pass}" Width="120"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
