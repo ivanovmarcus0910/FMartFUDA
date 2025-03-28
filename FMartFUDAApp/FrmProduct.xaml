@@ -1,0 +1,346 @@
+﻿<Page x:Class="FMartFUDAApp.FrmProduct"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FMartFUDAApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="1000" d:DesignWidth="1000"
+      Title="FrmProduct">
+
+    <Page.Resources>
+        <!-- Style cho Label -->
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Style cho TextBox (bo tròn) -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderBrush" Value="#B0BEC5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="20">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          VerticalAlignment="Center" 
+                                          Margin="5,0,5,0" Height="40"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Style cho ComboBox (bo tròn) -->
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderBrush" Value="#B0BEC5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="5">
+                            <Grid>
+                                <ToggleButton x:Name="ToggleButton" 
+                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Focusable="False" ClickMode="Press"/>
+                                <ContentPresenter x:Name="ContentSite" 
+                                                  Content="{TemplateBinding SelectionBoxItem}" 
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" 
+                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" 
+                                                  Margin="3,3,23,3" 
+                                                  VerticalAlignment="Center" 
+                                                  HorizontalAlignment="Left"/>
+                                <TextBox x:Name="PART_EditableTextBox" 
+                                         Style="{x:Null}" 
+                                         Margin="3,3,23,3" 
+                                         Focusable="True" 
+                                         Visibility="Hidden"/>
+                                <Popup x:Name="Popup" 
+                                       Placement="Bottom" 
+                                       IsOpen="{TemplateBinding IsDropDownOpen}" 
+                                       AllowsTransparency="True" 
+                                       Focusable="False" 
+                                       PopupAnimation="Slide">
+                                    <Grid x:Name="DropDown" 
+                                          SnapsToDevicePixels="True" 
+                                          MinWidth="{TemplateBinding ActualWidth}" 
+                                          MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                        <Border x:Name="DropDownBorder" 
+                                                Background="White" 
+                                                BorderThickness="1" 
+                                                BorderBrush="#B0BEC5"/>
+                                        <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Style cho Button (dùng Gradient) -->
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Style cho DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderBrush" Value="#B0BEC5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowBackground" Value="#F9F9F9"/>
+            <Setter Property="AlternatingRowBackground" Value="#E0F7FA"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#B0BEC5"/>
+        </Style>
+
+        <!-- Style cho Menu -->
+        <Style TargetType="Menu">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#1976D2" Offset="0"/>
+                        <GradientStop Color="#42A5F5" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <!-- Style cho MenuItem -->
+        <Style TargetType="MenuItem">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10,5"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <!-- Gradient Background cho Grid -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#BBDEFB" Offset="0"/>
+                <GradientStop Color="#E0F7FA" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <!-- Menu -->
+            <RowDefinition Height="60"/>
+            <!-- Tiêu đề -->
+            <RowDefinition Height="40"/>
+            <!-- Product ID -->
+            <RowDefinition Height="40"/>
+            <!-- Product Name -->
+            <RowDefinition Height="40"/>
+            <!-- Product Price -->
+            <RowDefinition Height="40"/>
+            <!-- Product Entry Price -->
+            <RowDefinition Height="40"/>
+            <!-- Product Description -->
+            <RowDefinition Height="40"/>
+            <!-- Category -->
+            <RowDefinition Height="40"/>
+            <!-- Product Images -->
+            <RowDefinition Height="40"/>
+            <!-- Khoảng trống -->
+            <RowDefinition Height="*"/>
+            <!-- DataGrid và Buttons -->
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <!-- Khoảng cách bên trái -->
+            <ColumnDefinition Width="150"/>
+            <!-- Cột cho Label -->
+            <ColumnDefinition Width="300"/>
+            <!-- Cột cho TextBox/ComboBox -->
+            <ColumnDefinition Width="*"/>
+            <!-- Cột còn lại -->
+            <ColumnDefinition Width="20"/>
+            <!-- Khoảng cách bên phải -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Menu -->
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+            <MenuItem Header="Category Management"/>
+            <MenuItem Header="Product Management"/>
+        </Menu>
+
+        <!-- Tiêu đề -->
+        <Label x:Name="label" Content="Product Management" 
+               Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" 
+               FontSize="28" FontWeight="Bold">
+            <Label.Foreground>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#1976D2" Offset="0"/>
+                    <GradientStop Color="#42A5F5" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+
+        <!-- Product ID -->
+        <Label x:Name="label1" Content="Product ID" 
+               Grid.Column="1" Grid.Row="2"/>
+        <TextBox x:Name="txtProductId" 
+                 Grid.Column="2" Grid.Row="2" 
+                 IsEnabled="False" Margin="0,10,0,0"/>
+
+        <!-- Product Name -->
+        <Label x:Name="label2" Content="Product Name" 
+               Grid.Column="1" Grid.Row="3"/>
+        <TextBox x:Name="txtProductName" 
+                 Grid.Column="2" Grid.Row="3" Margin="0,10,0,0"/>
+
+        <!-- Product Price -->
+        <Label x:Name="label4" Content="Product Price" 
+               Grid.Column="1" Grid.Row="4"/>
+        <TextBox x:Name="txtProductPrice" 
+                 Grid.Column="2" Grid.Row="4" Margin="0,10,0,0"/>
+
+        <!-- Product Entry Price -->
+        <Label x:Name="label42" Content="Product Entry Price" 
+               Grid.Column="1" Grid.Row="5"/>
+        <TextBox x:Name="txtProductEntryPrice" 
+                 Grid.Column="2" Grid.Row="5" Margin="0,10,0,0"/>
+
+        <!-- Product Description -->
+        <Label x:Name="label44" Content="Product Description" 
+               Grid.Column="1" Grid.Row="6"/>
+        <TextBox x:Name="txtProductDescription" 
+                 Grid.Column="2" Grid.Row="6" Margin="0,10,0,0"/>
+
+        <!-- Category -->
+        <Label x:Name="label3" Content="Category" 
+               Grid.Column="1" Grid.Row="7"/>
+        <ComboBox x:Name="cboCategory" 
+                  Grid.Column="2" Grid.Row="7"/>
+
+        <!-- Product Images -->
+        <Label x:Name="label24" Content="Product Images" 
+               Grid.Column="1" Grid.Row="8"/>
+        <Button Content="Upload Images" 
+                Click="ChooseImage_Click" 
+                Grid.Column="2" Grid.Row="8">
+            <Button.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FF9800" Offset="0"/>
+                    <GradientStop Color="#FFB300" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+
+        <!-- Product Image -->
+        <Border Grid.Column="3" Grid.Row="2" Grid.RowSpan="7" 
+                Background="White" CornerRadius="5" Margin="5">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#B0BEC5" Offset="0"/>
+                    <GradientStop Color="#90A4AE" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.BorderThickness>
+                <Thickness>2</Thickness>
+            </Border.BorderThickness>
+            <Image x:Name="imgProduct" Margin="5" Stretch="Uniform"/>
+        </Border>
+
+        <!-- DataGrid -->
+        <Border Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="3" 
+                Background="White" CornerRadius="5" Margin="0,5">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#B0BEC5" Offset="0"/>
+                    <GradientStop Color="#90A4AE" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.BorderThickness>
+                <Thickness>2</Thickness>
+            </Border.BorderThickness>
+            <DataGrid x:Name="dgData" AutoGenerateColumns="False" 
+                      Margin="5" VerticalAlignment="Stretch" 
+                      SelectionChanged="dgData_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Product ID" Binding="{Binding ProductId}" Width="100"/>
+                    <DataGridTextColumn Header="Product Image" Binding="{Binding ProductImage}" Width="150"/>
+                    <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" Width="150"/>
+                    <DataGridTextColumn Header="Product Price" Binding="{Binding ProductPrice}" Width="100"/>
+                    <DataGridTextColumn Header="Entry Price" Binding="{Binding ProductEntryPrice}" Width="100"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding ProductDecription}" Width="150"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category.CategoryName}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Các nút -->
+        <StackPanel Orientation="Horizontal" 
+                    Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="3" 
+                    HorizontalAlignment="Center">
+            <Button x:Name="btnCreate" Content="Create" Click="btnCreate_Click" Width="150">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#4CAF50" Offset="0"/>
+                        <GradientStop Color="#81C784" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btnUpdate" Content="Update" Click="btnUpdate_Click" Width="144">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#2196F3" Offset="0"/>
+                        <GradientStop Color="#64B5F6" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btnDelete" Content="Delete" Click="btnDelete_Click" Width="130">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#F44336" Offset="0"/>
+                        <GradientStop Color="#EF5350" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>
