@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Repositories;
 
 namespace FMartFUDAApp
 {
@@ -19,9 +20,14 @@ namespace FMartFUDAApp
     /// </summary>
     public partial class AdminWindow : Window
     {
+        EmployeeRepository employeeRepository;
         public AdminWindow()
         {
+            employeeRepository = new EmployeeRepository();
             InitializeComponent();
         }
+
+
+
     }
 }
