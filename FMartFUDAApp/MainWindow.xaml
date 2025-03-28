@@ -5,8 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FMartFUDAApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" WindowState="Maximized" Background="#F5F5F5">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Customer Manage" Click="customer"/>
+            <MenuItem Header="Room Manage" Click="room"/>
+            <MenuItem Header="Booking Manage" Click="booking"/>
+            <MenuItem Header="Booking Detail Manage" Click="bookingDetail"/>
 
-    </Grid>
+            <MenuItem Header="Create Report" Click="report"/>
+
+        </Menu>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+
+    </DockPanel>
 </Window>
