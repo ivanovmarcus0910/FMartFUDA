@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Models.Models;
 using Repositories;
 
@@ -21,12 +14,40 @@ namespace FMartFUDAApp
     /// </summary>
     public partial class Customer_Manager : Page
     {
-        private CustomerRepository _repository;
-        private List<Customer> _customers;
+        CustomerRepository _repository;
+        Employee _currentUser;
 
         public Customer_Manager()
         {
             InitializeComponent();
+
+            // Tuỳ ý: vô hiệu hoá trang, hoặc hiển thị cảnh báo
+            MessageBox.Show("Trang Quản lý Khách hàng yêu cầu thông tin nhân viên đăng nhập!",
+                            "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            this.IsEnabled = false;
+
+            // Nếu muốn vẫn dùng repository (dù không có user), bạn có thể khởi tạo:
+            _repository = new CustomerRepository();
+
+            // Hoặc bỏ qua, tuỳ nhu cầu
+        }
+        public Customer_Manager(Employee currentUser)
+        {
+            InitializeComponent();
+            _currentUser = currentUser;
+
+            // Kiểm tra quyền ngay trong constructor (bỏ hàm CheckRolePermission)
+            if (_currentUser.RoleId != 1 && _currentUser.RoleId != 2)
+            {
+                MessageBox.Show("Bạn không có quyền truy cập trang Quản lý Khách hàng!",
+                                "Permission Denied",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
+
+                // Vô hiệu hoá toàn bộ trang
+                this.IsEnabled = false;
+                // Hoặc bạn có thể điều hướng sang trang khác hoặc đóng cửa sổ tại đây
+            }
 
             // Khởi tạo repository
             _repository = new CustomerRepository();
@@ -46,10 +67,8 @@ namespace FMartFUDAApp
             try
             {
                 var list = await _repository.GetAllAsync();
-                _customers = list.ToList();
-
-                // Gán vào DataGrid
-                dgCustomers.ItemsSource = _customers;
+                dgCustomers.ItemsSource = null;
+                dgCustomers.ItemsSource = list;
             }
             catch (Exception ex)
             {
@@ -146,7 +165,7 @@ namespace FMartFUDAApp
         }
 
         // Khi chọn 1 dòng trong DataGrid, đưa thông tin lên form
-        private void dgCustomers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgCustomers.SelectedItem is Customer selected)
             {
