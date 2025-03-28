@@ -1,20 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Models.Models;
+
 namespace DataAccess
 {
-    public class EmployeeDAO : SingletonBase<EmployeeDAO>
+    public class OrderDetailDAO : SingletonBase<OrderDetailDAO>
     {
-        public async Task<Employee> AddAsync(Employee entity)
+        public async Task<OrderDetail> AddAsync(OrderDetail entity)
         {
             try
             {
-                var entityEntry = await _context.Set<Employee>().AddAsync(entity);
+                var entityEntry = await _context.Set<OrderDetail>().AddAsync(entity);
                 await _context.SaveChangesAsync();
                 return entityEntry.Entity; // Return the added entity
             }
@@ -25,11 +26,12 @@ namespace DataAccess
                 throw; // Re-throw after logging
             }
         }
-        public async Task<Employee> UpdateAsync(Employee entity)
+
+        public async Task<OrderDetail> UpdateAsync(OrderDetail entity)
         {
             try
             {
-                _context.Set<Employee>().Update(entity); // More efficient than attaching and setting values
+                _context.Set<OrderDetail>().Update(entity); // More efficient than attaching and setting values
                 await _context.SaveChangesAsync();
                 return entity; // Return the updated entity
             }
@@ -49,10 +51,10 @@ namespace DataAccess
         {
             try
             {
-                var entity = await _context.Set<Employee>().FindAsync(id);
+                var entity = await _context.Set<OrderDetail>().FindAsync(id);
                 if (entity != null)
                 {
-                    _context.Set<Employee>().Remove(entity);
+                    _context.Set<OrderDetail>().Remove(entity);
                     await _context.SaveChangesAsync();
                     return true; // Return true on successful deletion
                 }
@@ -65,23 +67,20 @@ namespace DataAccess
             }
         }
 
-
-        public async Task<IEnumerable<Employee>> GetAllAsync()
+        public async Task<IEnumerable<OrderDetail>> GetAllAsync()
         {
-            //return await _context.Set<Employee>().ToListAsync();
-            return await _context.Employees
-               .Include(st => st.Role)
-               .ToListAsync();
+            return await _context.Set<OrderDetail>().ToListAsync();
         }
-        public async Task<Employee> GetByIdAsync(int id)
+
+        public async Task<OrderDetail> GetByIdAsync(int id)
         {
-            return await _context.Set<Employee>().FindAsync(id); // Use FindAsync
+            return await _context.Set<OrderDetail>().FindAsync(id); // Use FindAsync
         }
 
         // Example of a more complex query (you would add these as needed)
-        public async Task<IEnumerable<Employee>> FindByConditionAsync(Expression<Func<Employee, bool>> predicate)
+        public async Task<IEnumerable<OrderDetail>> FindByConditionAsync(Expression<Func<OrderDetail, bool>> predicate)
         {
-            return await _context.Set<Employee>().Where(predicate).ToListAsync();
+            return await _context.Set<OrderDetail>().Where(predicate).ToListAsync();
         }
     }
 }
