@@ -58,7 +58,7 @@ namespace FMartFUDAApp
                 txtProductPrice.Text = selectedProduct.ProductPrice.ToString();
                 txtProductEntryPrice.Text = selectedProduct.ProductEntryPrice.ToString();
                 txtProductDescription.Text = selectedProduct.ProductDecription;
-                cboCategory.SelectedItem = selectedProduct.CategoryId;
+                cboCategory.SelectedValue = selectedProduct.CategoryId;
 
                 // Cập nhật ảnh sản phẩm
                 if (!string.IsNullOrEmpty(selectedProduct.ProductImage))
@@ -67,7 +67,7 @@ namespace FMartFUDAApp
                         try
                         {
                             // Tạo đường dẫn ảnh từ đường dẫn tương đối
-                            string projectDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+                            string projectDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
                             string absolutePath = System.IO.Path.Combine(projectDirectory, selectedProduct.ProductImage);
 
                             BitmapImage bitmap = new BitmapImage();
