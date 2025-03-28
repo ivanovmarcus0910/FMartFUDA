@@ -13,8 +13,8 @@ public partial class OrderDetail
     [Column("orderDetailID")]
     public int OrderDetailId { get; set; }
 
-    [Column("oderID")]
-    public int OderId { get; set; }
+    [Column("orderID")]
+    public int OrderId { get; set; }
 
     [Column("productID")]
     public int ProductId { get; set; }
@@ -23,11 +23,11 @@ public partial class OrderDetail
     public int OrderQuantity { get; set; }
 
     [Column("orderPrice")]
-    public double? OrderPrice { get; set; }
+    public double OrderPrice { get; set; }
 
-    [ForeignKey("OderId")]
+    [ForeignKey("OrderId")]
     [InverseProperty("OrderDetails")]
-    public virtual Order Oder { get; set; } = null!;
+    public virtual Order Order { get; set; } = null!;
 
     [ForeignKey("ProductId")]
     [InverseProperty("OrderDetails")]
