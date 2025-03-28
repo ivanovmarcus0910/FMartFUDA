@@ -69,7 +69,7 @@ namespace DataAccess
         public async Task<IEnumerable<Employee>> GetAllAsync()
         {
             //return await _context.Set<Employee>().ToListAsync();
-            return await _context.Employees
+            return await _context.Set<Employee>()
                .Include(st => st.Role)
                .ToListAsync();
         }

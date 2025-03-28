@@ -23,5 +23,55 @@ namespace FMartFUDAApp
             InitializeComponent();
             employeeCurrent = employee;
         }
+
+      
+
+        
+        private void CustomerManagement(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OrderManagement(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new OrderManagement(employeeCurrent));
+        }
+        private void OrderDetailManagement(object sender, RoutedEventArgs e)
+        {
+            //MainFrame.Navigate(new OrderDetailManagement(employeeCurrent));
+        }
+        private void CategoryManagement(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void ProductManagement(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void HistoryManagement(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void StaffManagement(object sender, RoutedEventArgs e)
+        {
+            // Kiểm tra quyền của nhân viên hiện tại
+            if (employeeCurrent.Role.RoleName == "Manager")
+            {
+                MainFrame.Navigate(new StaffManagement(employeeCurrent));
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền truy cập trang này!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void FinancialManagement(object sender, RoutedEventArgs e)
+        {
+            FinancialManagement next = new FinancialManagement(employeeCurrent);
+            next.Show();
+            Close();
+        }
+
+
     }
 }
