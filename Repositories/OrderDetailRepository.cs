@@ -15,6 +15,11 @@ namespace Repositories
             return await OrderDetailDAO.Instance.GetAllAsync(); // Correct: await the async method
         }
 
+        public async Task<IEnumerable<OrderDetail>> GetAllByOrderIdAsync(int id)
+        {
+            return await OrderDetailDAO.Instance.GetAllByOrderIdAsync(id); // Correct: await the async method
+        }
+
         public async Task<OrderDetail> GetByIdAsync(int id)
         {
             return await OrderDetailDAO.Instance.GetByIdAsync(id); // Correct: await the async method

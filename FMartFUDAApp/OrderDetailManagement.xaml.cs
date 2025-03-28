@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Models.Models;
+using Repositories;
 
 namespace FMartFUDAApp
 {
@@ -20,9 +23,27 @@ namespace FMartFUDAApp
     /// </summary>
     public partial class OrderDetailManagement : Page
     {
-        public OrderDetailManagement()
+        private OrderDetailRepository orderDetailRepository;
+        private OrderRepository orderRepository;
+        private Order order;
+        public OrderDetailManagement(Order o)
         {
             InitializeComponent();
+            orderDetailRepository = new OrderDetailRepository();
+            orderRepository = new OrderRepository();
+            order = o;
+            LoadData();
+        }
+
+        private async void LoadData()
+        {
+            txtOrderIDHeader.Text = order.OrderId.ToString();
+            txtBuyer.Text = order.Customer.CustomerName;
+            txtCreator.Text = order.Employee.EmployeeName;
+            txtNgayTao.Text = order.OrderDate.ToString("dd/MM/yyyy");
+            txtTongCong.Text = order.OrderAmount.ToString();
+            var orderDetails = await orderDetailRepository.GetAllByOrderIdAsync(order.OrderId);
+            OrderDetailGrid.ItemsSource = orderDetails;
         }
 
         private void btnCreate_Click(object sender, RoutedEventArgs e)

@@ -72,6 +72,11 @@ namespace DataAccess
             return await _context.Set<OrderDetail>().ToListAsync();
         }
 
+        public async Task<IEnumerable<OrderDetail>> GetAllByOrderIdAsync(int id)
+        {
+            return await _context.Set<OrderDetail>().Include(o => o.OrderId == id).ToListAsync();
+        }
+
         public async Task<OrderDetail> GetByIdAsync(int id)
         {
             return await _context.Set<OrderDetail>().FindAsync(id); // Use FindAsync
