@@ -31,6 +31,9 @@ public partial class Product
     [StringLength(255)]
     public string? ProductDecription { get; set; }
 
+    [Column("remainingQuantity")]
+    public int RemainingQuantity { get; set; }
+
     [ForeignKey("CategoryId")]
     [InverseProperty("Products")]
     public virtual Category Category { get; set; } = null!;
