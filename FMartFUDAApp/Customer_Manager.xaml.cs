@@ -17,7 +17,7 @@ namespace FMartFUDAApp
     /// <summary>
     /// Interaction logic for Customer_Manager.xaml
     /// </summary>
-    public partial class Customer_Manager : Window
+    public partial class Customer_Manager : Page
     {
         public Customer_Manager()
         {
