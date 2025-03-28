@@ -42,11 +42,11 @@ namespace FMartFUDAApp
         }
         private void CategoryManagement(object sender, RoutedEventArgs e)
         {
-
+             MainFrame.Navigate(new FrmCategory());
         }
         private void ProductManagement(object sender, RoutedEventArgs e)
         {
-
+             MainFrame.Navigate(new  FrmProduct());
         }
         private void HistoryManagement(object sender, RoutedEventArgs e)
         {
