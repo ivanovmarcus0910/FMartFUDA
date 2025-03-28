@@ -51,7 +51,7 @@ namespace FMartFUDAApp
             }
 
             var customerExists = await customerRepository.GetByIdAsync(customerId);
-            if (customerExists != null)
+            if (customerExists == null) 
             {
                 MessageBox.Show("Mã khách hàng không tồn tại!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -62,13 +62,19 @@ namespace FMartFUDAApp
                 CustomerId = customerId,
                 EmployeeId = employee.EmployeeId,
                 OrderDate = DateOnly.FromDateTime(DateTime.Now),
-                OrderAmount = double.TryParse(txtTotalAmount.Text, out var totalAmount) ? totalAmount : 0
+                OrderAmount = 0
             };
 
             await orderRepository.AddAsync(newOrder);
             LoadOrders();
-            MessageBox.Show("Thêm đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            MessageBoxResult result = MessageBox.Show("Thêm đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (result == MessageBoxResult.OK)
+            {
+                NavigationService?.Navigate(new OrderDetailManagement(newOrder, employee));
+            }
         }
+
 
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
@@ -77,15 +83,13 @@ namespace FMartFUDAApp
                 if (int.TryParse(txtBuyer.Text, out int customerId))
                 {
                     var customerExists = await customerRepository.GetByIdAsync(customerId);
-                    if (customerExists != null)
+                    if (customerExists == null)
                     {
                         MessageBox.Show("Mã khách hàng không tồn tại!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                     selectedOrder.CustomerId = customerId;
                 }
-
-                selectedOrder.OrderAmount = double.TryParse(txtTotalAmount.Text, out var totalAmount) ? totalAmount : selectedOrder.OrderAmount;
 
                 await orderRepository.UpdateAsync(selectedOrder);
                 LoadOrders();
