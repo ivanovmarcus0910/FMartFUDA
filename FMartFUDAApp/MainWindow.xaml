@@ -10,7 +10,15 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Customer Manager" Click="CustomerManagement"/>
             <MenuItem Header="Order Manager" Click="OrderManagement"/>
+            <MenuItem Header="OrderDetail Manager" Click="OrderDetailManagement"/>
+            <MenuItem Header="Category Manager" Click="CategoryManagement"/>
+            <MenuItem Header="Product Manager" Click="ProductManagement"/>
             <MenuItem Header="ManagerManagement" Click="FinancialManagement"/>
+            <MenuItem Header="StaffManagement" Click="StaffManagement"/>
+            <MenuItem Header="HistoryManagement" Click="HistoryManagement"/>
+            
+            
+
 
         </Menu>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>

@@ -45,7 +45,7 @@ namespace FMartFUDAApp
                 }
                 else
                 {
-                    AdminWindow next = new AdminWindow(employee);
+                    MainWindow next = new MainWindow(employee);
                     next.Show();
 
                     Close();

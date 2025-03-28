@@ -31,13 +31,34 @@ namespace FMartFUDAApp
             RoleRepository = new RoleRepository();
             showData();
             LoadComboRole();
-            
+            LoadComboStatus();
+
+
         }
         public async void showData()
         {
             var list = await EmployeeRepository.GetAllAsync();
             dgEmployee.ItemsSource = null;
             dgEmployee.ItemsSource = list;
+        }
+
+        public async void LoadComboStatus()
+        {
+
+            try
+            {
+                // Danh sách trạng thái từ CHECK CONSTRAINT
+                var statusList = new List<string> { "Active", "Inactive" };
+
+                // Gán danh sách vào ComboBox
+                cboStatus.ItemsSource = statusList;
+
+              
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public async void LoadComboRole()
@@ -76,6 +97,7 @@ namespace FMartFUDAApp
                     txtPass.Text = x.Pass;
                     cboRole.SelectedValue = x.RoleId;
                     dpEmployeeBirthDay.SelectedDate = DateTime.Parse(x.EmployeeBirthDay);
+                    cboStatus.SelectedItem = x.Status;
                 }
             }
             catch (Exception ex)
@@ -140,6 +162,7 @@ namespace FMartFUDAApp
             txtPass.Clear();
             dpEmployeeBirthDay.SelectedDate = null;
             cboRole.SelectedIndex = -1;
+            cboStatus.SelectedIndex = -1;
         }
 
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -153,7 +176,8 @@ namespace FMartFUDAApp
                     string.IsNullOrWhiteSpace(txtEmployeeEmail.Text) ||
                     string.IsNullOrWhiteSpace(txtPass.Text) ||
                     dpEmployeeBirthDay.SelectedDate == null ||
-                    cboRole.SelectedValue == null)
+                    cboRole.SelectedValue == null ||
+                    cboStatus.SelectedValue == null)
                 {
                     MessageBox.Show("Vui lòng chọn nhân viên và nhập đầy đủ thông tin!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
@@ -177,6 +201,7 @@ namespace FMartFUDAApp
                 employeeToUpdate.Pass = txtPass.Text;
                 employeeToUpdate.EmployeeBirthDay = dpEmployeeBirthDay.SelectedDate.Value.ToString("yyyy-MM-dd"); // Định dạng ngày tháng
                 employeeToUpdate.RoleId = (int)cboRole.SelectedValue; // Lấy ID của Role
+                employeeToUpdate.Status = cboStatus.SelectedItem?.ToString();
 
                 // Gọi phương thức cập nhật trong Repository
                 await EmployeeRepository.UpdateAsync(employeeToUpdate);
