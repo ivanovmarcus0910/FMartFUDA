@@ -71,6 +71,7 @@ namespace DataAccess
         {
             //return await _context.Set<Employee>().ToListAsync();
             return await _context.CustomerHistories
+                .Include(ch => ch.Employee)
                //.Include(st => st.Category)
                .ToListAsync();
         }
