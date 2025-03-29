@@ -1,0 +1,49 @@
+﻿<Page x:Class="FMartFUDAApp.OrderManagementHistory"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FMartFUDAApp"
+      mc:Ignorable="d" 
+      Title="OrderManagementHistory">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Bộ lọc -->
+        <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Left">
+            <Label Content="Lọc theo hành động:" VerticalAlignment="Center"/>
+            <ComboBox x:Name="cbActionType" Width="120" Margin="5">
+                <ComboBoxItem Content="All"/>
+                <ComboBoxItem Content="Create"/>
+                <ComboBoxItem Content="Update"/>
+                <ComboBoxItem Content="Delete"/>
+            </ComboBox>
+
+            <Label Content="Từ ngày:" VerticalAlignment="Center"/>
+            <DatePicker x:Name="dpStartDate" Width="130" Margin="5"/>
+
+            <Label Content="Đến ngày:" VerticalAlignment="Center"/>
+            <DatePicker x:Name="dpEndDate" Width="130" Margin="5"/>
+
+            <Button Content="Lọc" Click="FilterHistory" Width="80" Margin="5"/>
+            <Button Content="Làm Mới" Click="RefreshHistory" Width="90" Margin="5"/>
+            
+            <Button Content="Xóa" Click="DeleteSelectedHistory" Width="80" Margin="5" Background="Red" Foreground="White"/>
+        </StackPanel>
+
+        <!-- DataGrid hiển thị lịch sử -->
+        <DataGrid x:Name="OrderHistoryGrid" Grid.Row="1" Margin="10" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding HistoryId}" Width="50"/>
+                <DataGridTextColumn Header="Hành động" Binding="{Binding ActionType}" Width="100"/>
+                <DataGridTextColumn Header="Ngày thực hiện" Binding="{Binding ActionDate}" Width="120"/>
+                <DataGridTextColumn Header="Nhân viên" Binding="{Binding EmployeeId}" Width="100"/>
+                <DataGridTextColumn Header="Chi tiết" Binding="{Binding ChangeDecription}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

@@ -10,7 +10,7 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Customer Manager" Click="CustomerManagement"/>
             <MenuItem Header="Order Manager" Click="OrderManagement"/>
-            <MenuItem Header="OrderDetail Manager" Click="OrderDetailManagement"/>
+            <MenuItem Header="Order Manager History" Click="OrderManagementHistory"/>
             <MenuItem Header="Category Manager" Click="CategoryManagement"/>
             <MenuItem Header="Product Manager" Click="ProductManagement"/>
             <MenuItem Header="ManagerManagement" Click="FinancialManagement"/>

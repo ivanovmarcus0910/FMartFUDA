@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -26,6 +27,7 @@ namespace FMartFUDAApp
         private Employee employee;
         private CustomerRepository customerRepository;
         private OrderDetailRepository orderDetailRepository;
+        private OrderHistoryRepository orderHistoryRepository;
         public OrderManagement(Employee emp)
         {
             InitializeComponent();
@@ -33,6 +35,7 @@ namespace FMartFUDAApp
             employee = emp;
             customerRepository = new CustomerRepository();
             orderDetailRepository = new OrderDetailRepository();
+            orderHistoryRepository = new OrderHistoryRepository();
             LoadOrders();
         }
 
@@ -64,8 +67,17 @@ namespace FMartFUDAApp
                 OrderDate = DateOnly.FromDateTime(DateTime.Now),
                 OrderAmount = 0
             };
-
             await orderRepository.AddAsync(newOrder);
+
+            var newOrderHistory = new OrderHistory
+            {
+                ActionType = "Create",
+                ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                EmployeeId = employee.EmployeeId,
+                ChangeDecription = $"Thêm đơn hàng: {newOrder.OrderId} của khách hàng có id là [{newOrder.CustomerId}]"
+            };
+            await orderHistoryRepository.AddAsync(newOrderHistory);
+            
             LoadOrders();
 
             MessageBoxResult result = MessageBox.Show("Thêm đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -80,20 +92,30 @@ namespace FMartFUDAApp
         {
             if (OrderGrid.SelectedItem is Order selectedOrder)
             {
+                var oldOrderId = selectedOrder.OrderId;
                 if (int.TryParse(txtBuyer.Text, out int customerId))
                 {
-                    var customerExists = await customerRepository.GetByIdAsync(customerId);
-                    if (customerExists == null)
+                    var newCustomer = await customerRepository.GetByIdAsync(customerId);
+                    if (newCustomer == null)
                     {
                         MessageBox.Show("Mã khách hàng không tồn tại!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                     selectedOrder.CustomerId = customerId;
-                }
 
-                await orderRepository.UpdateAsync(selectedOrder);
-                LoadOrders();
-                MessageBox.Show("Cập nhật đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    await orderHistoryRepository.AddAsync(new OrderHistory
+                    {
+                        ActionType = "Update",
+                        ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                        EmployeeId = employee.EmployeeId,
+                        ChangeDecription = $"Cập nhật đơn hàng: từ khách hàng có id là [{oldOrderId}] => [{customerId}]"
+                    });
+
+                    await orderRepository.UpdateAsync(selectedOrder);
+                    LoadOrders();
+                    MessageBox.Show("Cập nhật đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
         }
 
@@ -111,11 +133,21 @@ namespace FMartFUDAApp
                 {
                     var orderDetails = await orderDetailRepository.GetAllByOrderIdAsync(selectedOrder.OrderId);
 
+                    await orderHistoryRepository.AddAsync(new OrderHistory
+                    {
+                        ActionType = "Delete",
+                        ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                        EmployeeId = employee.EmployeeId,
+                        ChangeDecription = $"Xóa đơn hàng ID [{selectedOrder.OrderId}] của khách hàng ID [{selectedOrder.CustomerId}]"
+                    });
+
+                    // Xóa tất cả chi tiết đơn hàng trước
                     foreach (var detail in orderDetails)
                     {
-                        await orderDetailRepository.DeleteAsync(detail.OrderDetailId);
+                        await orderDetailRepository.DeleteAsync(detail.OrderDetailId, detail.OrderId);
                     }
 
+                    // Xóa đơn hàng chính
                     await orderRepository.DeleteAsync(selectedOrder.OrderId);
 
                     LoadOrders();
@@ -123,6 +155,7 @@ namespace FMartFUDAApp
                 }
             }
         }
+
 
 
         private void btnDetail_Click(object sender, RoutedEventArgs e)
@@ -144,8 +177,8 @@ namespace FMartFUDAApp
             {
                 txtOrderID.Text = selectedOrder.OrderId.ToString();
                 txtBuyer.Text = selectedOrder.CustomerId.ToString();
-                txtCreator.Text = employee.EmployeeName; // Không thay đổi người tạo
-                txtCreatedDate.Text = selectedOrder.OrderDate.ToString("dd/MM/yyyy"); // Ngày tạo chỉ hiển thị, không chỉnh sửa
+                txtCreator.Text = employee.EmployeeName;
+                txtCreatedDate.Text = selectedOrder.OrderDate.ToString("dd/MM/yyyy"); 
                 txtTotalAmount.Text = selectedOrder.OrderAmount.ToString();
             }
         }
