@@ -34,7 +34,7 @@ namespace FMartFUDAApp
 
         private void OrderManagement(object sender, RoutedEventArgs e)
         {
-
+            MainFrame.Navigate(new OrderManagement(employeeCurrent));
         }
         private void OrderDetailManagement(object sender, RoutedEventArgs e)
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess;
+using Microsoft.EntityFrameworkCore;
 using Models.Models;
 
 namespace Repositories
@@ -48,6 +49,11 @@ namespace Repositories
         public async Task<bool> DeleteAsync(int orderDetailId, int orderId)
         {
             return await OrderDetailDAO.Instance.DeleteAsync(orderDetailId, orderId);
+        }
+
+        public async Task<int> GetMaxOrderDetailIdAsync(int orderId)
+        {
+            return await OrderDetailDAO.Instance.GetMaxOrderDetailIdAsync(orderId);
         }
     }
 }

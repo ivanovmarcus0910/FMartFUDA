@@ -88,6 +88,11 @@ namespace DataAccess
                 .FirstOrDefaultAsync(o => o.OrderDetailId == orderDetailId && o.OrderId == orderId);
         }
 
+        public async Task<int> GetMaxOrderDetailIdAsync(int orderId)
+        {
+            return await _context.OrderDetails.Where(od => od.OrderId == orderId).MaxAsync(od => (int?)od.OrderDetailId) ?? 0;
+        }
+
         public async Task<IEnumerable<OrderDetail>> FindByConditionAsync(Expression<Func<OrderDetail, bool>> predicate)
         {
             return await _context.Set<OrderDetail>().Where(predicate).ToListAsync();

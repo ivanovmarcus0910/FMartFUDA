@@ -64,6 +64,14 @@ namespace FMartFUDAApp
                 txtOrderQuantity.Text = selectedDetail.OrderQuantity.ToString();
                 txtOrderPrice.Text = selectedDetail.OrderPrice.ToString();
             }
+            else
+            {
+                txtSTT.Text = "";
+                txtProductID.Text = "";
+                txtProductName.Text = "";
+                txtOrderQuantity.Text = "";
+                txtOrderPrice.Text = "";
+            }
         }
 
         private async void txtProductID_TextChanged(object sender, TextChangedEventArgs e)
@@ -85,8 +93,12 @@ namespace FMartFUDAApp
                 return;
             }
 
+            int maxOrderDetailId = await orderDetailRepository.GetMaxOrderDetailIdAsync(order.OrderId);
+            int newOrderDetailId = maxOrderDetailId + 1;
+
             var newOrderDetail = new OrderDetail
             {
+                OrderDetailId = newOrderDetailId,
                 OrderId = order.OrderId,
                 ProductId = productId,
                 OrderQuantity = quantity,
@@ -94,8 +106,9 @@ namespace FMartFUDAApp
             };
 
             await orderDetailRepository.AddAsync(newOrderDetail);
-            order.OrderAmount += price; 
+            order.OrderAmount += (quantity * price); 
             await orderRepository.UpdateAsync(order);
+
             LoadData();
             MessageBox.Show("Thêm chi tiết đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
