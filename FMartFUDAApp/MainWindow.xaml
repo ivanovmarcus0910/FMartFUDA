@@ -5,23 +5,94 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FMartFUDAApp"
         mc:Ignorable="d"
-        Title="MainWindow" WindowState="Maximized" Background="#F5F5F5">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Customer Manager" Click="CustomerManagement"/>
-            <MenuItem Header="Order Manager" Click="OrderManagement"/>
-            <MenuItem Header="OrderDetail Manager" Click="OrderDetailManagement"/>
-            <MenuItem Header="Category Manager" Click="CategoryManagement"/>
-            <MenuItem Header="Product Manager" Click="ProductManagement"/>
-            <MenuItem Header="ManagerManagement" Click="FinancialManagement"/>
-            <MenuItem Header="StaffManagement" Click="StaffManagement"/>
-            <MenuItem Header="HistoryManagement" Click="HistoryManagement"/>
-            
-            
+        Title="Hotel Management System" WindowState="Maximized" Background="#F5F5F5">
+    <Grid>
+
+        <!-- Sidebar -->
+        <StackPanel Background="#F2A03D" Width="250" HorizontalAlignment="Left" Margin="0,0,6,0">
+            <TextBlock Text="FMart Management System" Foreground="White" FontSize="25" FontWeight="Bold" Height="69" Width="238" TextWrapping="Wrap" TextAlignment="Center" Margin="0,15,0,0" />
+            <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\mart_icon_update.png" Width="92" Height="69" Margin="5,0,15,0"/>
+            <Separator Background="White" Height="14" Width="202" />
+            <Button Click="CustomerManagement" Background="#F2A03D" Foreground="White" FontWeight="Bold" 
+        FontFamily="Century Gothic" Margin="0,7,0,7" Height="50" FontSize="15" BorderThickness="0" >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\client.png" Width="30" Height="30" Margin="5,0,15,0"/>
+                    <TextBlock Text="Customer" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="OrderManagement" BorderThickness="0"  Background="#F2A03D" Foreground="White" FontWeight="Bold" FontFamily="Century Gothic" Margin="0,7,0,7" Height="50" FontSize="15">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\oder.png" Width="30" Height="30" Margin="5,0,15,0"/>
+                    <TextBlock Text="Order Manager" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="OrderDetailManagement" BorderThickness="0"  Background="#F2A03D" Foreground="White" FontWeight="Bold" FontFamily="Century Gothic" Margin="0,7,0,7" Height="50" FontSize="15">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\orderDetail.png"  Width="30" Height="30" Margin="5,0,15,0"/>
+                    <TextBlock Text="OrderDetail Manager" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="CategoryManagement" BorderThickness="0"  Background="#F2A03D" Foreground="White" FontWeight="Bold" FontFamily="Century Gothic" Margin="0,7,0,7" Height="50" FontSize="15">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\CCC.png" Width="30" Height="30" Margin="5,0,15,0"/>
+                    <TextBlock Text="Category Manager" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="ProductManagement" BorderThickness="0"  Background="#F2A03D" Foreground="White" FontWeight="Bold" FontFamily="Century Gothic" Margin="0,7,0,7" Height="50" FontSize="15">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\product.png" Width="30" Height="30" Margin="5,0,15,0"/>
+                    <TextBlock Text="Product Manager" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="FinancialManagement" BorderThickness="0"  Background="#F2A03D" Foreground="White" FontWeight="Bold" FontFamily="Century Gothic" Margin="0,7,0,7" Height="50" FontSize="15">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\statisticc.png" Width="30" Height="30" Margin="5,0,15,0"/>
+                    <TextBlock Text="Manager Management" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="StaffManagement" BorderThickness="0"  Background="#F2A03D" Foreground="White" FontWeight="Bold" FontFamily="Century Gothic" Margin="0,7,0,7" Height="50" FontSize="15">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\Staffs.png" Width="30" Height="30" Margin="5,0,15,0"/>
+                    <TextBlock Text="Staff Management" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="HistoryManagement" BorderThickness="0"  Background="#F2A03D" Foreground="White" FontWeight="Bold" FontFamily="Century Gothic" Margin="0,7,0,7" Height="50" FontSize="15">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\hisicon.png" Width="30" Height="30" Margin="5,0,15,0"/>
+                    <TextBlock Text="History Management" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!-- Header -->
+        <DockPanel Background="White" Height="44" VerticalAlignment="Top" LastChildFill="True" Margin="250,0,0,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\clock.png" Width="20" Height="20" Margin="5,0,10,0"/>
+                <TextBlock x:Name="txtClock" Text="?" FontSize="16" Foreground="Black" HorizontalAlignment="Right" DockPanel.Dock="Left" Margin="0,0,50,0"/>
+            </StackPanel>
+
+            <Button Click="Logoutbtn"  Background="Transparent" Foreground="#F2A03D" FontWeight="Bold"
+BorderThickness="0" FontSize="15" Margin="10,0,20,0" VerticalAlignment="Top" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="D:\SP25\PRN212\FMartFUDA\FMartFUDAApp\Images\user-icon.png" Width="25" Height="25" Margin="0,10,15,0"/>
+                    <TextBlock Text="Logout" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </DockPanel>
 
 
-        </Menu>
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        <DockPanel Background="#F2A03D" Height="100" VerticalAlignment="Top" LastChildFill="True" Margin="250,44,0,0">
+            <TextBlock Name="welcomeTextBlock" Text="Welcome: NTU" Foreground="White" FontSize="18" Margin="10" DockPanel.Dock="Left"  VerticalAlignment="Center" />
+        </DockPanel>
 
-    </DockPanel>
+        <!-- Main Content -->
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="250,144,0,0" />
+    </Grid>
 </Window>

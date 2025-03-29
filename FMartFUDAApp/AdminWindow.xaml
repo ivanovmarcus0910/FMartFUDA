@@ -9,7 +9,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Quản lý nhân viên"  Click="OpenPage1" />
-            <MenuItem Header="Log out"  />
+            <MenuItem Header="Log out" Click="Logoutbtn"  />
 
         </Menu>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
