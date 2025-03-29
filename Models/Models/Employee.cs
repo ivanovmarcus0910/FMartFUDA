@@ -36,6 +36,11 @@ public partial class Employee
     [StringLength(100)]
     public string Pass { get; set; } = null!;
 
+    [Column("status")]
+    [StringLength(10)]
+    [Unicode(false)]
+    public string Status { get; set; } = null!;
+
     [InverseProperty("Employee")]
     public virtual ICollection<CustomerHistory> CustomerHistories { get; set; } = new List<CustomerHistory>();
 

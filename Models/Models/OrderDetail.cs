@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Models.Models;
 
+[PrimaryKey("OrderDetailId", "OrderId")]
 [Table("OrderDetail")]
 public partial class OrderDetail
 {
@@ -13,6 +14,7 @@ public partial class OrderDetail
     [Column("orderDetailID")]
     public int OrderDetailId { get; set; }
 
+    [Key]
     [Column("orderID")]
     public int OrderId { get; set; }
 

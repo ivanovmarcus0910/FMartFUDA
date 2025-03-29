@@ -50,10 +50,10 @@ namespace DataAccess
         {
             try
             {
-                var entity = await _context.Set<Employee>().FindAsync(id);
+                var entity = await _context.Set<CustomerHistory>().FindAsync(id);
                 if (entity != null)
                 {
-                    _context.Set<Employee>().Remove(entity);
+                    _context.Set<CustomerHistory>().Remove(entity);
                     await _context.SaveChangesAsync();
                     return true; // Return true on successful deletion
                 }
@@ -71,6 +71,7 @@ namespace DataAccess
         {
             //return await _context.Set<Employee>().ToListAsync();
             return await _context.CustomerHistories
+                .Include(ch => ch.Employee)
                //.Include(st => st.Category)
                .ToListAsync();
         }

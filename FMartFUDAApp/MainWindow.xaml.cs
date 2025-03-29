@@ -35,7 +35,7 @@ namespace FMartFUDAApp
         
         private void CustomerManagement(object sender, RoutedEventArgs e)
         {
-
+            MainFrame.Navigate(new Customer_Manager(employeeCurrent));
         }
 
         private void OrderManagement(object sender, RoutedEventArgs e)
@@ -44,19 +44,19 @@ namespace FMartFUDAApp
         }
         private void OrderDetailManagement(object sender, RoutedEventArgs e)
         {
-            //MainFrame.Navigate(new OrderDetailManagement(employeeCurrent));
+
         }
         private void CategoryManagement(object sender, RoutedEventArgs e)
         {
-             MainFrame.Navigate(new FrmCategory());
+
         }
         private void ProductManagement(object sender, RoutedEventArgs e)
         {
-             MainFrame.Navigate(new  FrmProduct());
+
         }
         private void HistoryManagement(object sender, RoutedEventArgs e)
         {
-
+            MainFrame.Navigate(new CustomerHistoryPage(employeeCurrent));
         }
         private void StaffManagement(object sender, RoutedEventArgs e)
         {

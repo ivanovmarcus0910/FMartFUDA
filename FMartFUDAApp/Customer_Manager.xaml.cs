@@ -39,7 +39,7 @@ namespace FMartFUDAApp
             _currentUser = currentUser;
 
             // Kiểm tra quyền ngay trong constructor (bỏ hàm CheckRolePermission)
-            if (_currentUser.RoleId != 1 && _currentUser.RoleId != 2)
+            if (_currentUser.RoleId != 1 && _currentUser.RoleId != 3)
             {
                 MessageBox.Show("Bạn không có quyền truy cập trang Quản lý Khách hàng!",
                                 "Permission Denied",
@@ -97,11 +97,14 @@ namespace FMartFUDAApp
                 // Ghi log
                 await _historyRepo.AddAsync(new CustomerHistory
                 {
-                    ActionType = "Add",
+                    ActionType = "Insert",
                     ActionDate = DateOnly.FromDateTime(DateTime.Now),
                     EmployeeId = _currentUser.EmployeeId,
                     ChangeDecription = $"Thêm khách hàng: {newCustomer.CustomerName}"
                 });
+
+                MessageBox.Show("Thêm khách hàng thành công!", "Thông báo",
+                MessageBoxButton.OK, MessageBoxImage.Information);
 
                 // Load lại danh sách
                 await LoadCustomersAsync();
@@ -141,6 +144,9 @@ namespace FMartFUDAApp
                         ChangeDecription = $"Cập nhật khách hàng: từ {oldName} thành {selected.CustomerName}"
                     });
 
+                    MessageBox.Show("Cập nhật khách hàng thành công!", "Thông báo",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+
                     // Load lại danh sách
                     await LoadCustomersAsync();
                     ClearForm();
@@ -176,6 +182,8 @@ namespace FMartFUDAApp
                             ChangeDecription = $"Xoá khách hàng: {selected.CustomerName}"
                         });
 
+                        MessageBox.Show("Xoá khách hàng thành công!", "Thông báo",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                         await LoadCustomersAsync();
                         ClearForm();
                     }

@@ -27,6 +27,9 @@ public partial class Product
     [StringLength(255)]
     public string ProductImage { get; set; } = null!;
 
+    [Column("productEntryPrice")]
+    public double? ProductEntryPrice { get; set; }
+
     [Column("productDecription")]
     [StringLength(255)]
     public string? ProductDecription { get; set; }

@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Models.Models;
 using Repositories;
@@ -23,40 +24,32 @@ namespace FMartFUDAApp
     {
         private Employee _currentUser;
         private CustomerHistoryRepository _historyRepo;
+        private List<CustomerHistory> _allHistories = new(); // To store full list
 
-        // Constructor không tham số (cần cho WPF)
         public CustomerHistoryPage()
         {
             InitializeComponent();
-            // Thông báo và vô hiệu hoá nếu gọi constructor này
             MessageBox.Show("Trang này yêu cầu Manager!",
-                            "Warning",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Warning);
+                            "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             this.IsEnabled = false;
         }
 
-        // Constructor có tham số: nhận Employee đang đăng nhập
         public CustomerHistoryPage(Employee currentUser)
         {
             InitializeComponent();
             _currentUser = currentUser;
 
-            // Chỉ cho phép Manager (RoleId = 2) xem lịch sử
-            if (_currentUser.RoleId != 2)
+            if (_currentUser.RoleId != 3)
             {
                 MessageBox.Show("Bạn không có quyền xem lịch sử khách hàng!",
-                                "Permission Denied",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Warning);
+                                "Permission Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
                 this.IsEnabled = false;
             }
-
-            // Khởi tạo repository để load dữ liệu từ bảng CustomerHistory
-            _historyRepo = new CustomerHistoryRepository();
-
-            // Khi trang đã load, ta gọi hàm LoadHistoryAsync
-            this.Loaded += CustomerHistoryPage_Loaded;
+            else
+            {
+                _historyRepo = new CustomerHistoryRepository();
+                this.Loaded += CustomerHistoryPage_Loaded;
+            }
         }
 
         private async void CustomerHistoryPage_Loaded(object sender, RoutedEventArgs e)
@@ -68,15 +61,58 @@ namespace FMartFUDAApp
         {
             try
             {
-                // Gọi repository để lấy tất cả dòng lịch sử
                 var list = await _historyRepo.GetAllAsync();
-                dgCustomerHistory.ItemsSource = null;
-                dgCustomerHistory.ItemsSource = list;
+                _allHistories = list.ToList(); // lưu trữ để lọc
+                dgCustomerHistory.ItemsSource = _allHistories;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi tải lịch sử khách hàng: " + ex.Message);
             }
         }
+
+        // =========================
+        // ✅ XỬ LÝ BỘ LỌC
+        // =========================
+        private void btnFilter_Click(object sender, RoutedEventArgs e)
+        {
+            var filtered = _allHistories.AsEnumerable();
+
+            // Lọc theo mô tả
+            if (!string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                filtered = filtered.Where(h =>
+                    h.ChangeDecription != null &&
+                    h.ChangeDecription.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // Lọc từ ngày
+            if (dpFrom.SelectedDate.HasValue)
+            {
+                var fromDate = DateOnly.FromDateTime(dpFrom.SelectedDate.Value);
+                filtered = filtered.Where(h => h.ActionDate >= fromDate);
+            }
+
+            // Lọc đến ngày
+            if (dpTo.SelectedDate.HasValue)
+            {
+                var toDate = DateOnly.FromDateTime(dpTo.SelectedDate.Value);
+                filtered = filtered.Where(h => h.ActionDate <= toDate);
+            }
+
+            dgCustomerHistory.ItemsSource = filtered.ToList();
+        }
+
+        // =========================
+        // ✅ LÀM MỚI DỮ LIỆU
+        // =========================
+        private async void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            txtSearch.Clear();
+            dpFrom.SelectedDate = null;
+            dpTo.SelectedDate = null;
+            await LoadHistoryAsync();
+        }
     }
+
 }
