@@ -5,13 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FMartFUDAApp"
       mc:Ignorable="d" 
-      d:DesignHeight="1200" d:DesignWidth="900"
+      d:DesignHeight="1200" d:DesignWidth="1400"
       Title="FrmProduct">
 
     <Page.Resources>
         <!-- Style cho Label -->
         <Style TargetType="Label">
-            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="#333333"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -185,7 +185,7 @@
             <!-- Product Images -->
             <RowDefinition Height="60"/>
             <!-- Khoảng trống -->
-            
+
             <RowDefinition Height="*"/>
             <!-- DataGrid và Buttons -->
         </Grid.RowDefinitions>
@@ -195,11 +195,11 @@
             <!-- Khoảng cách bên trái -->
             <ColumnDefinition Width="150"/>
             <!-- Cột cho Label -->
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="250"/>
             <!-- Cột cho TextBox/ComboBox -->
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
             <!-- Cột còn lại -->
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
             <!-- Khoảng cách bên phải -->
         </Grid.ColumnDefinitions>
 
@@ -207,7 +207,7 @@
 
 
         <!-- Tiêu đề -->
-        <Label x:Name="label" Content="Product Management" 
+        <Label x:Name="label" Content="Quản Lý Sản Phẩm" 
                Grid.Column="2" Grid.ColumnSpan="3" 
                FontSize="20" FontWeight="Bold" Margin="0,-10,0,5" Grid.RowSpan="2">
             <Label.Foreground>
@@ -219,46 +219,46 @@
         </Label>
 
         <!-- Product ID -->
-        <Label x:Name="label1" Content="Product ID" 
+        <Label x:Name="label1" Content="Mã Sản Phẩm" 
                Grid.Column="1" Grid.Row="2"/>
         <TextBox x:Name="txtProductId" 
                  Grid.Column="2" Grid.Row="2" 
                  IsEnabled="False" Margin="0,10,0,0"/>
 
         <!-- Product Name -->
-        <Label x:Name="label2" Content="Product Name" 
+        <Label x:Name="label2" Content="Tên Sản Phẩm" 
                Grid.Column="1" Grid.Row="3"/>
         <TextBox x:Name="txtProductName" 
                  Grid.Column="2" Grid.Row="3" Margin="0,10,0,0"/>
 
         <!-- Product Price -->
-        <Label x:Name="label4" Content="Product Price" 
+        <Label x:Name="label4" Content="Giá Bán" 
                Grid.Column="1" Grid.Row="4"/>
         <TextBox x:Name="txtProductPrice" 
                  Grid.Column="2" Grid.Row="4" Margin="0,10,0,0"/>
 
         <!-- Product Entry Price -->
-        <Label x:Name="label42" Content="Product Entry Price" 
+        <Label x:Name="label42" Content="Giá Nhập" 
                Grid.Column="1" Grid.Row="5"/>
         <TextBox x:Name="txtProductEntryPrice" 
                  Grid.Column="2" Grid.Row="5" Margin="0,10,0,0"/>
 
         <!-- Product Description -->
-        <Label x:Name="label44" Content="Product Description" 
+        <Label x:Name="label44" Content="Miêu tả sản phẩm" 
                Grid.Column="1" Grid.Row="6"/>
         <TextBox x:Name="txtProductDescription" 
                  Grid.Column="2" Grid.Row="6" Margin="0,10,0,0"/>
 
         <!-- Category -->
-        <Label x:Name="label3" Content="Category" 
+        <Label x:Name="label3" Content="Phân loại" 
                Grid.Column="1" Grid.Row="7"/>
         <ComboBox x:Name="cboCategory" 
                   Grid.Column="2" Grid.Row="7" Margin="0,5,0,0"/>
 
         <!-- Product Images -->
-        <Label x:Name="label24" Content="Product Images" 
+        <Label x:Name="label24" Content="Ảnh Sản Phẩm" 
                Grid.Column="1" Grid.Row="8"/>
-        <Button Content="Upload Images" 
+        <Button Content="Tải Ảnh Lên" 
                 Click="ChooseImage_Click" 
                 Grid.Column="2" Grid.Row="8" Margin="0,5,0,5">
             <Button.Background>
@@ -271,7 +271,7 @@
 
         <!-- Product Image -->
         <Border Grid.Column="3" Grid.Row="2" Grid.RowSpan="7" 
-                Background="White" CornerRadius="5" Margin="5">
+                Background="White" CornerRadius="5" Margin="5,5,5,5">
             <Border.BorderBrush>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#B0BEC5" Offset="0"/>
@@ -285,8 +285,8 @@
         </Border>
 
         <!-- DataGrid -->
-        <Border Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="4" 
-                Background="White" CornerRadius="5" Margin="0,10,0,5">
+        <Border Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="4" 
+                Background="White" CornerRadius="5" Margin="0,10,15,5">
             <Border.BorderBrush>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#B0BEC5" Offset="0"/>
@@ -300,8 +300,8 @@
                       Margin="5,8,5,5" 
                       SelectionChanged="dgData_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Product ID" Binding="{Binding ProductId}" Width="100"/>
-                    <DataGridTemplateColumn Header="Product Image" Width="150">
+                    <DataGridTextColumn Header="ID" Binding="{Binding ProductId}" Width="100"/>
+                    <DataGridTemplateColumn Header="Ảnh Sản Phẩm" Width="150">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Image Source="{Binding ProductImage}" Width="100" Height="60" Stretch="UniformToFill" />
@@ -310,17 +310,17 @@
                     </DataGridTemplateColumn>
 
 
-                    <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" Width="150"/>
-                    <DataGridTextColumn Header="Product Price" Binding="{Binding ProductPrice}" Width="100"/>
-                    <DataGridTextColumn Header="Entry Price" Binding="{Binding ProductEntryPrice}" Width="100"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding ProductDecription}" Width="150"/>
-                    <DataGridTextColumn Header="Category" Binding="{Binding Category.CategoryName}" Width="*"/>
+                    <DataGridTextColumn Header="Tên Sản Phẩm" Binding="{Binding ProductName}" Width="100"/>
+                    <DataGridTextColumn Header="Giá Bán" Binding="{Binding ProductPrice}" Width="100"/>
+                    <DataGridTextColumn Header="Giá Nhập" Binding="{Binding ProductEntryPrice}" Width="100"/>
+                    <DataGridTextColumn Header="Miêu Tả" Binding="{Binding ProductDecription}" Width="100"/>
+                    <DataGridTextColumn Header="Phân Loại" Binding="{Binding Category.CategoryName}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
 
         <!-- Các nút -->
-        <Button x:Name="btnCreate" Content="Create" Click="btnCreate_Click" Width="150" Margin="0,5" Grid.Column="4"
+        <Button x:Name="btnCreate" Content="Thêm sản phẩm" Click="btnCreate_Click" Margin="25,5,15,5" Grid.Column="4"
             Grid.Row="4">
             <Button.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -330,7 +330,7 @@
             </Button.Background>
         </Button>
 
-        <Button x:Name="btnUpdate" Content="Update" Click="btnUpdate_Click" Width="150" Margin="0,5"
+        <Button x:Name="btnUpdate" Content="Cập nhật sản phẩm" Click="btnUpdate_Click" Margin="25,5,15,5"
            Grid.Column="4"
             Grid.Row="5">
             <Button.Background>
@@ -340,7 +340,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="btnDelete" Content="Delete" Click="btnDelete_Click" Width="150" Margin="0,5"
+        <Button x:Name="btnDelete" Content="Xóa sản phẩm" Click="btnDelete_Click" Margin="25,5,15,5"
            Grid.Column="4"
             Grid.Row="6">
             <Button.Background>
@@ -351,13 +351,13 @@
             </Button.Background>
         </Button>
         <!-- Search Bar -->
-        <StackPanel Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10" Width="660">
             <TextBox x:Name="txtSearchProductName" Width="200" Margin="5"/>
             <ComboBox x:Name="cboFilterCategory" Width="200" Margin="5" 
           SelectionChanged="cboFilterCategory_SelectionChanged"/>
 
-            <Button Content="Search" Click="btnSearch_Click" Width="100" Margin="5"/>
-            <Button Content="Hiển thị tất cả" Click="btnReset_Click" Width="120" Margin="5"/>
+            <Button Content="Tìm kiếm" Click="btnSearch_Click" Width="100" Margin="5"/>
+            <Button Content="Hiển thị tất cả" Click="btnReset_Click" Width="126" Margin="5"/>
 
         </StackPanel>
 

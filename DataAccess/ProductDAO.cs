@@ -77,7 +77,7 @@ namespace DataAccess
         {
             using (var context = new FmartFudaContext())
             {
-                return await context.Set<Product>().FindAsync(id);
+                return await _context.Set<Product>().FindAsync(id);
             }
         }
 

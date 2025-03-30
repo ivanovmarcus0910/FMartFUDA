@@ -120,23 +120,26 @@ namespace FMartFUDAApp
         {
             try
             {
-               
+                Console.WriteLine("Bắt đầu tạo sản phẩm...");
 
                 Product p = new Product
                 {
                     ProductName = txtProductName.Text,
-                    ProductPrice = Double.Parse(txtProductPrice.Text), // float
+                    ProductPrice = Double.Parse(txtProductPrice.Text),
                     ProductEntryPrice = Double.Parse(txtProductEntryPrice.Text),
                     ProductDecription = txtProductDescription.Text,
                     ProductImage = imgProduct.Tag?.ToString(),
                     CategoryId = Convert.ToInt32(cboCategory.SelectedValue),
-                                                                           
                 };
 
+                Console.WriteLine($"Đang lưu: {p.ProductName}, Giá: {p.ProductPrice}, Danh mục: {p.CategoryId}");
+
                 await productRepository.AddAsync(p);
+
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Lỗi khi tạo sản phẩm: {ex}");
                 MessageBox.Show($"Error: {ex.Message}");
             }
             finally
@@ -144,6 +147,7 @@ namespace FMartFUDAApp
                 LoadproductList();
             }
         }
+
 
         private void ChooseImage_Click(object sender, RoutedEventArgs e)
         {
@@ -196,19 +200,29 @@ namespace FMartFUDAApp
         {
             try
             {
+                Console.WriteLine("Bắt đầu cập nhật sản phẩm...");
                 if (!string.IsNullOrEmpty(txtProductId.Text))
                 {
                     Product p = await productRepository.GetByIdAsync(Int32.Parse(txtProductId.Text));
                     if (p != null)
                     {
-                        p.ProductId = Int32.Parse(txtProductId.Text);
+                        Console.WriteLine($"Cập nhật sản phẩm ID: {p.ProductId}");
+
                         p.ProductName = txtProductName.Text;
                         p.ProductPrice = double.Parse(txtProductPrice.Text);
                         p.ProductEntryPrice = double.Parse(txtProductEntryPrice.Text);
                         p.ProductDecription = txtProductDescription.Text;
-                        p.ProductImage = imgProduct.Tag?.ToString() ?? p.ProductImage; ;
+                        p.ProductImage = imgProduct.Tag?.ToString() ?? p.ProductImage;
                         p.CategoryId = Convert.ToInt32(cboCategory.SelectedValue);
+
                         await productRepository.UpdateAsync(p);
+                      
+
+                        Console.WriteLine("Cập nhật thành công.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Không tìm thấy sản phẩm để cập nhật.");
                     }
                 }
                 else
@@ -218,6 +232,7 @@ namespace FMartFUDAApp
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Lỗi khi cập nhật sản phẩm: {ex}");
                 MessageBox.Show(ex.Message);
             }
             finally
@@ -226,16 +241,26 @@ namespace FMartFUDAApp
             }
         }
 
+
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                Console.WriteLine("Bắt đầu xóa sản phẩm...");
                 if (!string.IsNullOrEmpty(txtProductId.Text))
                 {
                     Product p = await productRepository.GetByIdAsync(Int32.Parse(txtProductId.Text));
                     if (p != null)
                     {
+                        Console.WriteLine($"Xóa sản phẩm ID: {p.ProductId}");
+
                         await productRepository.DeleteAsync(p.ProductId);
+
+                        Console.WriteLine("Xóa thành công.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Không tìm thấy sản phẩm để xóa.");
                     }
                 }
                 else
@@ -245,6 +270,7 @@ namespace FMartFUDAApp
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Lỗi khi xóa sản phẩm: {ex}");
                 MessageBox.Show(ex.Message);
             }
             finally
