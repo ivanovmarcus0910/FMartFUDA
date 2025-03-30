@@ -143,10 +143,8 @@ namespace FMartFUDAApp
                         EmployeeId = _currentUser.EmployeeId,
                         ChangeDecription = $"Cập nhật khách hàng: từ {oldName} thành {selected.CustomerName}"
                     });
-
                     MessageBox.Show("Cập nhật khách hàng thành công!", "Thông báo",
                     MessageBoxButton.OK, MessageBoxImage.Information);
-
                     // Load lại danh sách
                     await LoadCustomersAsync();
                     ClearForm();

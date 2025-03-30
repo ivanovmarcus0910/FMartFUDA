@@ -37,6 +37,26 @@ namespace FMartFUDAApp
             MainFrame.Navigate(new EmployeeManagementPage());
 
         }
+        private void Logoutbtn(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Are you sure you want to log out?",
+                "Logout Confirmation",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
+
+            if (result == MessageBoxResult.Yes)
+            {
+                RedirectToLogin();
+            }
+        }
+        private void RedirectToLogin()
+        {
+            Login loginWindow = new Login();
+            loginWindow.Show();
+            this.Close(); // Đóng cửa sổ hiện tại
+        }
 
 
     }

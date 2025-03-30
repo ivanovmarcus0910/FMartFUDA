@@ -29,6 +29,7 @@ namespace FMartFUDAApp
         private CustomerRepository customerRepository;
         private Employee employee;
         private ProductRepository productRepository;
+        private OrderHistoryRepository orderHistoryRepository;
         public OrderDetailManagement(Order o, Employee e)
         {
             InitializeComponent();
@@ -38,6 +39,7 @@ namespace FMartFUDAApp
             employee = e;
             customerRepository = new CustomerRepository();
             productRepository = new ProductRepository();
+            orderHistoryRepository = new OrderHistoryRepository();
             LoadData();
         }
 
@@ -106,8 +108,16 @@ namespace FMartFUDAApp
             };
 
             await orderDetailRepository.AddAsync(newOrderDetail);
-            order.OrderAmount += (quantity * price); 
+            order.OrderAmount += price; 
             await orderRepository.UpdateAsync(order);
+
+            await orderHistoryRepository.AddAsync(new OrderHistory
+            {
+                ActionType = "Create",
+                ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                EmployeeId = employee.EmployeeId,
+                ChangeDecription = $"Thêm chi tiết đơn hàng ID [{newOrderDetailId}] vào đơn hàng ID [{order.OrderId}], sản phẩm ID [{productId}], số lượng [{quantity}], giá [{price}]"
+            });
 
             LoadData();
             MessageBox.Show("Thêm chi tiết đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -129,14 +139,33 @@ namespace FMartFUDAApp
                 return;
             }
 
+            // Lưu trạng thái cũ để ghi lịch sử
+            int oldProductId = selectedDetail.ProductId;
+            int oldQuantity = selectedDetail.OrderQuantity;
+            double oldPrice = selectedDetail.OrderPrice;
+
             selectedDetail.ProductId = productId;
             selectedDetail.OrderQuantity = quantity;
             selectedDetail.OrderPrice = price;
 
             await orderDetailRepository.UpdateAsync(selectedDetail);
+
+            // Ghi lịch sử cập nhật
+            await orderHistoryRepository.AddAsync(new OrderHistory
+            {
+                ActionType = "Update",
+                ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                EmployeeId = employee.EmployeeId,
+                ChangeDecription = $"Cập nhật chi tiết đơn hàng ID [{selectedDetail.OrderDetailId}] trong đơn hàng ID [{selectedDetail.OrderId}]: " +
+                                   $"Sản phẩm ID [{oldProductId}] => [{productId}], " +
+                                   $"Số lượng [{oldQuantity}] => [{quantity}], " +
+                                   $"Giá [{oldPrice}] => [{price}]"
+            });
+
             LoadData();
             MessageBox.Show("Cập nhật chi tiết đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
 
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
@@ -149,11 +178,25 @@ namespace FMartFUDAApp
             MessageBoxResult result = MessageBox.Show("Bạn có chắc muốn xóa chi tiết đơn hàng này?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
+                // Lưu lịch sử trước khi xóa
+                await orderHistoryRepository.AddAsync(new OrderHistory
+                {
+                    ActionType = "Delete",
+                    ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                    EmployeeId = employee.EmployeeId,
+                    ChangeDecription = $"Xóa chi tiết đơn hàng ID [{selectedDetail.OrderDetailId}] trong đơn hàng ID [{selectedDetail.OrderId}], " +
+                                       $"Sản phẩm ID [{selectedDetail.ProductId}], " +
+                                       $"Số lượng [{selectedDetail.OrderQuantity}], " +
+                                       $"Giá [{selectedDetail.OrderPrice}]"
+                });
+
                 await orderDetailRepository.DeleteAsync(selectedDetail.OrderDetailId, selectedDetail.OrderId);
+
                 LoadData();
                 MessageBox.Show("Xóa chi tiết đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {

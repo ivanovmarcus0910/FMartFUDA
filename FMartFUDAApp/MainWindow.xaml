@@ -5,23 +5,192 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FMartFUDAApp"
         mc:Ignorable="d"
-        Title="MainWindow" WindowState="Maximized" Background="#F5F5F5">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Customer Manager" Click="CustomerManagement"/>
-            <MenuItem Header="Order Manager" Click="OrderManagement"/>
-            <MenuItem Header="OrderDetail Manager" Click="OrderDetailManagement"/>
-            <MenuItem Header="Category Manager" Click="CategoryManagement"/>
-            <MenuItem Header="Product Manager" Click="ProductManagement"/>
-            <MenuItem Header="ManagerManagement" Click="FinancialManagement"/>
-            <MenuItem Header="StaffManagement" Click="StaffManagement"/>
-            <MenuItem Header="HistoryManagement" Click="HistoryManagement"/>
+        Title="FMart FUDA" WindowState="Maximized" Background="#F5F5F5">
+    <Window.Resources>
+        <LinearGradientBrush x:Key="SidebarGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop x:Name="SidebarGradientStop1" Color="#46a2fb" Offset="0"/>
+            <GradientStop x:Name="SidebarGradientStop2" Color="#00e1df" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!-- Gradient động cho Header -->
+        <LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop x:Name="HeaderGradientStop1" Color="#00e1df" Offset="0"/>
+            <GradientStop x:Name="HeaderGradientStop2" Color="#ff4af7" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!-- Animation Storyboard -->
+        <Storyboard x:Key="GradientAnimation">
+            <ColorAnimation Storyboard.TargetName="SidebarGradientStop1"
+                            Storyboard.TargetProperty="Color"
+                            From="#00CED1" To="#00E1DF"
+                            Duration="0:0:3" AutoReverse="True"
+                            RepeatBehavior="Forever"/>
+
+            <ColorAnimation Storyboard.TargetName="SidebarGradientStop2"
+                            Storyboard.TargetProperty="Color"
+                            From="#009966" To="#00CED1"
+                            Duration="0:0:3" AutoReverse="True"
+                            RepeatBehavior="Forever"/>
+
+            <ColorAnimation Storyboard.TargetName="HeaderGradientStop1"
+                            Storyboard.TargetProperty="Color"
+                            From="#00E1DF" To="#FF4AF7"
+                            Duration="0:0:3" AutoReverse="True"
+                            RepeatBehavior="Forever"/>
+
+            <ColorAnimation Storyboard.TargetName="HeaderGradientStop2"
+                            Storyboard.TargetProperty="Color"
+                            From="#FF4AF7" To="#00E1DF"
+                            Duration="0:0:3" AutoReverse="True"
+                            RepeatBehavior="Forever"/>
+        </Storyboard>
+
+
+        <Style TargetType="ScrollBar">
+            <Setter Property="Background" Value="{StaticResource SidebarGradient}"/>
+            <Setter Property="Width" Value="12"/>
+        </Style>
+        <Style TargetType="Thumb">
+            <Setter Property="Background" Value="#009966"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="SidebarButtonStyle">
+            <Setter Property="Background" Value="#008080"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+            <Setter Property="Margin" Value="0,7,0,7"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#005F5F"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Button" x:Key="LogoutButtonStyle">
+    <Setter Property="Background" Value="WhiteSmoke"/>
+    <Setter Property="Foreground" Value="Black"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="FontFamily" Value="Century Gothic"/>
+    <Setter Property="Margin" Value="0,7,0,7"/>
+    <Setter Property="Height" Value="40"/>
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderBrush" Value="Black"/>
+    <Setter Property="Padding" Value="10,5"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="Button">
+                <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                    <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              RecognizesAccessKey="True"/>
+                </Border>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+
+    <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+            <Setter Property="Background" Value="#00CED1"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+        </Trigger>
+    </Style.Triggers>
+</Style>
+    </Window.Resources>
+    <Grid>
+        <!-- Sidebar -->
+        <StackPanel Background="{StaticResource SidebarGradient}" Width="250" HorizontalAlignment="Left" Margin="0,0,6,0">
+            <TextBlock Text="FMart Management System" Foreground="White" FontSize="25" FontWeight="Bold" Height="69" Width="238" TextWrapping="Wrap" TextAlignment="Center" Margin="0,15,0,0" />
+            <Separator Background="White" Height="14" Width="202" />
+
+           
+
+            <Button Click="OrderManagement" Style="{StaticResource SidebarButtonStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Order Manager" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="CategoryManagement" Style="{StaticResource SidebarButtonStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Category Manager" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="ProductManagement" Style="{StaticResource SidebarButtonStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Product Manager" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="CustomerManagement" Style="{StaticResource SidebarButtonStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Customer" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
             
+            <Button Click="StaffManagement" Style="{StaticResource SidebarButtonStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Staff Management" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
             
+            <Button Click="FinancialManagement" Style="{StaticResource SidebarButtonStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Manager Management" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="HistoryManagement" Style="{StaticResource SidebarButtonStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="AccountHistory" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="OrderHistoryManagement" Style="{StaticResource SidebarButtonStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Order History Manager" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!-- Header -->
+        <DockPanel Background="{StaticResource HeaderGradient}" Height="40" VerticalAlignment="Top" LastChildFill="False" Margin="250,0,0,0">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Source="Images\clock.png" Width="20" Height="20"
+               Margin="5,0,10,0"/>
+                <TextBlock x:Name="txtClock" Text="?" FontSize="16" Foreground="White" HorizontalAlignment="Right"
+                   Margin="0,0,50,0"/>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" >
+                <Button Grid.Column="1" Click="Logoutbtn" Style="{StaticResource LogoutButtonStyle}"
+        FontWeight="Bold" FontSize="16" Margin="10,0,20,0" Width="auto" VerticalAlignment="Center">
+
+                <TextBlock Text="Logout"/>
+                </Button>
+
+            </StackPanel>
+
+        </DockPanel>
 
 
-        </Menu>
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        <DockPanel Background="{StaticResource HeaderGradient}" Height="45" VerticalAlignment="Top" LastChildFill="True" Margin="250,40,0,0">
+            <TextBlock Name="welcomeTextBlock" Text="Welcome: NTU" Foreground="White" FontSize="18" Margin="10" DockPanel.Dock="Left"  VerticalAlignment="Center" />
+        </DockPanel>
 
-    </DockPanel>
+        <!-- Main Content -->
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="250,90,0,0" />
+    </Grid>
 </Window>
