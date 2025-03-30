@@ -258,7 +258,7 @@
         <!-- Product Images -->
         <Label x:Name="label24" Content="Ảnh Sản Phẩm" 
                Grid.Column="1" Grid.Row="8"/>
-        <Button Content="Tải Ảnh Lên" 
+        <Button Content="Tải ảnh lên" 
                 Click="ChooseImage_Click" 
                 Grid.Column="2" Grid.Row="8" Margin="0,5,0,5">
             <Button.Background>

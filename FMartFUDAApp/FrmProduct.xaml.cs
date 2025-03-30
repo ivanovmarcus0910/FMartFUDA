@@ -135,6 +135,7 @@ namespace FMartFUDAApp
                 Console.WriteLine($"Đang lưu: {p.ProductName}, Giá: {p.ProductPrice}, Danh mục: {p.CategoryId}");
 
                 await productRepository.AddAsync(p);
+                MessageBox.Show("Thêm sản phẩm thành công");
 
             }
             catch (Exception ex)
@@ -216,9 +217,9 @@ namespace FMartFUDAApp
                         p.CategoryId = Convert.ToInt32(cboCategory.SelectedValue);
 
                         await productRepository.UpdateAsync(p);
-                      
 
-                        Console.WriteLine("Cập nhật thành công.");
+
+                        MessageBox.Show("Cập nhật sản phẩm thành công");
                     }
                     else
                     {
@@ -256,7 +257,7 @@ namespace FMartFUDAApp
 
                         await productRepository.DeleteAsync(p.ProductId);
 
-                        Console.WriteLine("Xóa thành công.");
+                        MessageBox.Show("Xóa sản phẩm thành công");
                     }
                     else
                     {

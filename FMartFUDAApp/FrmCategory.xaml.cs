@@ -51,11 +51,18 @@ namespace FMartFUDAApp
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập tên phân loại!");
+                    return;
+                }
+
                 Category s = new Category
                 {
                     CategoryName = txtCategoryName.Text,
                 };
                 await categoryRepository.AddAsync(s);
+                MessageBox.Show("Thêm phân loại thành công");
             }
             catch (Exception ex)
             {
@@ -71,20 +78,25 @@ namespace FMartFUDAApp
         {
             try
             {
-                if (!string.IsNullOrEmpty(txtCategoryId.Text))
+                if (string.IsNullOrEmpty(txtCategoryId.Text))
                 {
-                    Category s = await categoryRepository.GetByIdAsync(Int32.Parse(txtCategoryId.Text));
-                    if (s != null)
-                    {
-                        s.CategoryId = Int32.Parse(txtCategoryId.Text);
-                        s.CategoryName = txtCategoryName.Text;
-                        await categoryRepository.UpdateAsync(s);
-                    }
-
+                    MessageBox.Show("Bạn phải chọn một phân loại!");
+                    return;
                 }
-                else
+
+                if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
                 {
-                    MessageBox.Show("You must select a Category!");
+                    MessageBox.Show("Vui lòng nhập tên phân loại!");
+                    return;
+                }
+
+                Category s = await categoryRepository.GetByIdAsync(Int32.Parse(txtCategoryId.Text));
+                if (s != null)
+                {
+                    s.CategoryId = Int32.Parse(txtCategoryId.Text);
+                    s.CategoryName = txtCategoryName.Text;
+                    await categoryRepository.UpdateAsync(s);
+                    MessageBox.Show("Cập nhật phân loại thành công");
                 }
             }
             catch (Exception ex)
