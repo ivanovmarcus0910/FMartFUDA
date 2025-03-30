@@ -56,9 +56,8 @@ namespace FMartFUDAApp
         {
             try
             {
-                var list = await employeeRepo.GetAllAsync();
-                Employee _user = (from c in list
-                       where c.EmployeeEmail == Email   
+                Employee _user = (from c in await employeeRepo.GetAllAsync()
+                                  where c.EmployeeEmail == Email   
                        select c).FirstOrDefault();
                 if (_user != null)
                 {

@@ -47,6 +47,7 @@
                     <Button Name="btnAdd" Content="Thêm" Width="80" Height="35" Margin="5" Background="#4CAF50" Foreground="White" Click="btnAdd_Click" />
                     <Button Name="btnUpdate" Content="Sửa" Width="80" Height="35" Margin="5" Background="#FFC107" Foreground="White" Click="btnUpdate_Click"/>
                     <Button Name="btnDelete" Content="Xóa" Width="80" Height="35" Margin="5" Background="#F44336" Foreground="White"/>
+                
                 </StackPanel>
             </StackPanel>
         </Border>

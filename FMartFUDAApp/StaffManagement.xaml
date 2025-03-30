@@ -44,7 +44,7 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20,0,0">
                     <Button Name="btnAdd" Content="Thêm" Width="80" Height="35" Margin="5" Background="#4CAF50" Foreground="White" Click="btnAdd_Click"  />
                     <Button Name="btnUpdate" Content="Sửa" Width="80" Height="35" Margin="5" Background="#FFC107" Foreground="White" Click="btnUpdate_Click_1"/>
-                    <Button Name="btnDelete" Content="Xóa" Width="80" Height="35" Margin="5" Background="#F44336" Foreground="White"/>
+                    <Button Name="btnDelete" Content="Xóa" Width="80" Height="35" Margin="5" Background="#F44336" Foreground="White" Click="btnDelete_Click"/>
                 </StackPanel>
             </StackPanel>
         </Border>
@@ -73,13 +73,13 @@
                   >
                     <!-- Giảm chiều cao nếu cần -->
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding EmployeeId}" Width="50"/>
-                        <DataGridTextColumn Header="Tên" Binding="{Binding EmployeeName}" Width="150"/>
-                        <DataGridTextColumn Header="SĐT" Binding="{Binding EmployeePhone}" Width="120"/>
-                        <DataGridTextColumn Header="Email" Binding="{Binding EmployeeEmail}" Width="180"/>
-                        <DataGridTextColumn Header="Ngày sinh" Binding="{Binding EmployeeBirthDay, StringFormat=dd/MM/yyyy}" Width="120"/>
-                        <DataGridTextColumn Header="Mật khẩu" Binding="{Binding Pass}" Width="120"/>
-                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="120"/>
+                        <DataGridTextColumn Header="ID" Binding="{Binding EmployeeId}" Width="25"/>
+                        <DataGridTextColumn Header="Tên" Binding="{Binding EmployeeName}" Width="160"/>
+                        <DataGridTextColumn Header="SĐT" Binding="{Binding EmployeePhone}" Width="100"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding EmployeeEmail}" Width="150"/>
+                        <DataGridTextColumn Header="Ngày sinh" Binding="{Binding EmployeeBirthDay, StringFormat=dd/MM/yyyy}" Width="100"/>
+                        <DataGridTextColumn Header="Mật khẩu" Binding="{Binding Pass}" Width="80"/>
+                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="100"/>
 
                     </DataGrid.Columns>
                 </DataGrid>

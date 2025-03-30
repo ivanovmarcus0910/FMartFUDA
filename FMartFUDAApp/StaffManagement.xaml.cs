@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -24,12 +25,14 @@ namespace FMartFUDAApp
     {
         Employee employeeCurrent;
         EmployeeRepository EmployeeRepository;
+        CustomerHistoryRepository _historyRepo;
 
         public StaffManagement(Employee employee)
         {
             InitializeComponent();
             employeeCurrent = employee;
             EmployeeRepository = new EmployeeRepository();
+            _historyRepo = new CustomerHistoryRepository();
             showData();
             LoadComboStatus();
         }
@@ -114,6 +117,14 @@ namespace FMartFUDAApp
 
                 // Gọi phương thức thêm vào CSDL
                 await EmployeeRepository.AddAsync(newEmployee);
+                 // ghi log
+                await _historyRepo.AddAsync(new CustomerHistory
+                {
+                    ActionType = "Insert",
+                    ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                    EmployeeId = employeeCurrent.EmployeeId,
+                    ChangeDecription = $"Thêm Nhân Viên: {newEmployee.EmployeeName}"
+                });
 
                 // Load lại danh sách
                 showData();
@@ -159,6 +170,14 @@ namespace FMartFUDAApp
                     return;
                 }
 
+                // Lưu thông tin cũ để so sánh
+                string oldName = employeeToUpdate.EmployeeName;
+                string oldPhone = employeeToUpdate.EmployeePhone;
+                string oldEmail = employeeToUpdate.EmployeeEmail;
+                string oldPass = employeeToUpdate.Pass;
+                string oldBirthDay = employeeToUpdate.EmployeeBirthDay;
+                string oldStatus = employeeToUpdate.Status;
+
                 // Cập nhật thông tin nhân viên
                 employeeToUpdate.EmployeeName = txtEmployeeName.Text.Trim();
                 employeeToUpdate.EmployeePhone = txtEmployeePhone.Text.Trim();
@@ -169,6 +188,26 @@ namespace FMartFUDAApp
 
                 // Gọi phương thức cập nhật trong Repository
                 await EmployeeRepository.UpdateAsync(employeeToUpdate);
+
+                // So sánh và ghi log
+                List<string> changes = new List<string>();
+                if (oldName != employeeToUpdate.EmployeeName) changes.Add($"Tên: '{oldName}' → '{employeeToUpdate.EmployeeName}'");
+                if (oldPhone != employeeToUpdate.EmployeePhone) changes.Add($"SĐT: '{oldPhone}' → '{employeeToUpdate.EmployeePhone}'");
+                if (oldEmail != employeeToUpdate.EmployeeEmail) changes.Add($"Email: '{oldEmail}' → '{employeeToUpdate.EmployeeEmail}'");
+                if (oldPass != employeeToUpdate.Pass) changes.Add($"Mật khẩu đã thay đổi");
+                if (oldBirthDay != employeeToUpdate.EmployeeBirthDay) changes.Add($"Ngày sinh: '{oldBirthDay}' → '{employeeToUpdate.EmployeeBirthDay}'");
+                if (oldStatus != employeeToUpdate.Status) changes.Add($"Trạng thái: '{oldStatus}' → '{employeeToUpdate.Status}'");
+
+                if (changes.Count > 0)
+                {
+                    await _historyRepo.AddAsync(new CustomerHistory
+                    {
+                        ActionType = "Update",
+                        ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                        EmployeeId = employeeCurrent.EmployeeId,
+                        ChangeDecription = $"Chỉnh sửa nhân viên {employeeToUpdate.EmployeeName}: " + string.Join("; ", changes)
+                    });
+                }
 
                 // Load lại danh sách
                 showData();
@@ -182,8 +221,8 @@ namespace FMartFUDAApp
             {
                 MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
+
         private void ClearForm()
         {
             txtEmployeeID.Clear();
@@ -226,6 +265,71 @@ namespace FMartFUDAApp
             {
                 MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Kiểm tra dữ liệu đầu vào
+                if (string.IsNullOrWhiteSpace(txtEmployeeID.Text))
+                {
+                    MessageBox.Show("Vui lòng chọn nhân viên cần xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Lấy ID của nhân viên
+                int employeeId = int.Parse(txtEmployeeID.Text);
+
+                // Lấy nhân viên từ database
+                Employee employeeToDelete = await EmployeeRepository.GetByIdAsync(employeeId);
+                if (employeeToDelete == null)
+                {
+                    MessageBox.Show("Không tìm thấy nhân viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Xác nhận trước khi thay đổi trạng thái
+                MessageBoxResult result = MessageBox.Show(
+                    "Bạn có chắc chắn muốn vô hiệu hóa nhân viên này?",
+                    "Xác nhận",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question
+                );
+
+                if (result == MessageBoxResult.No)
+                {
+                    return;
+                }
+
+                // Cập nhật trạng thái thành "Inactive"
+                employeeToDelete.Status = "Inactive";
+
+                // Gọi phương thức cập nhật trong Repository
+                await EmployeeRepository.UpdateAsync(employeeToDelete);
+
+                // Ghi log
+                await _historyRepo.AddAsync(new CustomerHistory
+                {
+                    ActionType = "Delete",
+                    ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                    EmployeeId = employeeCurrent.EmployeeId,
+                    ChangeDecription = $"Vô hiệu hóa nhân viên: {employeeToDelete.EmployeeName}"
+                });
+
+                // Load lại danh sách sau khi cập nhật
+                showData();
+
+                // Xóa form sau khi xóa
+                ClearForm();
+
+                MessageBox.Show("Nhân viên đã được vô hiệu hóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
     }
 }
