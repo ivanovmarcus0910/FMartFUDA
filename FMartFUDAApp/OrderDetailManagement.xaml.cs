@@ -219,7 +219,7 @@ namespace FMartFUDAApp
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.GoBack();
+            NavigationService?.Navigate(new OrderManagement(employee));
         }
 
         private async void txtOrderQuantity_TextChanged(object sender, TextChangedEventArgs e)

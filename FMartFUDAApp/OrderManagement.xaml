@@ -62,13 +62,11 @@
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
             <Button x:Name="btnCreate" Content="Thêm mới" Width="120" Height="40"
-                    Margin="10" FontSize="14" Click="btnCreate_Click"/>
-            <Button x:Name="btnUpdate" Content="Cập nhật" Width="120" Height="40"
-                    Margin="10" FontSize="14" Click="btnUpdate_Click"/>
+                    Margin="10" FontSize="14" Click="btnCreate_Click" Background="#4CAF50" Foreground="White"/>
+            <Button x:Name="btnUpdate" Content="Cập nhật" Width="120" Height="40 "
+                    Margin="10" FontSize="14" Click="btnUpdate_Click" Background="#FFC107" Foreground="White"/>
             <Button x:Name="btnDelete" Content="Xóa" Width="120" Height="40"
-                    Margin="10" FontSize="14" Click="btnDelete_Click"/>
-            <Button x:Name="btnClose" Content="Đóng" Width="120" Height="40"
-                    Margin="10" FontSize="14" Click="btnClose_Click"/>
+                    Margin="10" FontSize="14" Click="btnDelete_Click" Background="#F44336" Foreground="White"/>
         </StackPanel>
     </Grid>
 </Page>

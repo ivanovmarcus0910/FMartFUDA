@@ -164,7 +164,7 @@
 
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" >
                 <Button Grid.Column="1" Click="Logoutbtn" Style="{StaticResource LogoutButtonStyle}"
-        FontWeight="Bold" FontSize="16" Margin="10,0,20,0" Width="auto" VerticalAlignment="Center">
+        FontWeight="Bold" FontSize="16" Margin="10,10,20,0" Width="auto" VerticalAlignment="Center">
 
                 <TextBlock Text="Logout"/>
                 </Button>
@@ -179,6 +179,6 @@
         </DockPanel>
 
         <!-- Main Content -->
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="250,90,0,0" />
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="250,85,0,0" />
     </Grid>
 </Window>

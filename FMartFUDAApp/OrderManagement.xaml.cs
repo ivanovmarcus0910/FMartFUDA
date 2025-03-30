@@ -162,10 +162,7 @@ namespace FMartFUDAApp
             }
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.GoBack();
-        }
+      
 
         private void OrderGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

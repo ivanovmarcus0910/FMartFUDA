@@ -37,11 +37,11 @@
             <!-- Danh sách hóa đơn -->
             <DataGrid x:Name="tableData" ItemsSource="{Binding Orders}" AutoGenerateColumns="False" Height="200">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}" Width="100"/>
-                    <DataGridTextColumn Header="Customer ID" Binding="{Binding CustomerId}" Width="100"/>
-                    <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeId}" Width="100"/>
-                    <DataGridTextColumn Header="Date" Binding="{Binding OrderDate, StringFormat='dd/MM/yyyy'}" Width="120"/>
-                    <DataGridTextColumn Header="Order Amount" Binding="{Binding OrderAmount, StringFormat=N0}" Width="150"/>
+                    <DataGridTextColumn Header="Mã Đơn" Binding="{Binding OrderID}" Width="100"/>
+                    <DataGridTextColumn Header="Mã Khách hàng" Binding="{Binding CustomerId}" Width="100"/>
+                    <DataGridTextColumn Header="Mã Nhân viên" Binding="{Binding EmployeeId}" Width="100"/>
+                    <DataGridTextColumn Header="Ngày" Binding="{Binding OrderDate, StringFormat='dd/MM/yyyy'}" Width="120"/>
+                    <DataGridTextColumn Header="Số lượng đặt hàng" Binding="{Binding OrderAmount, StringFormat=N0}" Width="150"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
