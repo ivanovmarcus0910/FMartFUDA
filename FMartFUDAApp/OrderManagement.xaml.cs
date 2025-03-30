@@ -141,13 +141,11 @@ namespace FMartFUDAApp
                         ChangeDecription = $"Xóa đơn hàng ID [{selectedOrder.OrderId}] của khách hàng ID [{selectedOrder.CustomerId}]"
                     });
 
-                    // Xóa tất cả chi tiết đơn hàng trước
                     foreach (var detail in orderDetails)
                     {
                         await orderDetailRepository.DeleteAsync(detail.OrderDetailId, detail.OrderId);
                     }
 
-                    // Xóa đơn hàng chính
                     await orderRepository.DeleteAsync(selectedOrder.OrderId);
 
                     LoadOrders();
@@ -155,8 +153,6 @@ namespace FMartFUDAApp
                 }
             }
         }
-
-
 
         private void btnDetail_Click(object sender, RoutedEventArgs e)
         {

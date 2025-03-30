@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.VisualBasic;
 using Models.Models;
 namespace FMartFUDAApp
 {
@@ -24,11 +25,20 @@ namespace FMartFUDAApp
         {
             InitializeComponent();
             employeeCurrent = x;
+            MainFrame.Navigate(new Revenue());
+
         }
 
         private void Revenue(object sender, RoutedEventArgs e)
         {
-
+            if (employeeCurrent.Role.RoleName == "Manager")
+            {
+                MainFrame.Navigate(new Revenue());
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền truy cập trang này!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void ManagerStaff(object sender, RoutedEventArgs e)
@@ -64,17 +74,23 @@ namespace FMartFUDAApp
             loginWindow.Show();
             this.Close(); // Đóng cửa sổ hiện tại
         }
-
-        private void FinancialReport(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void BackBT(object sender, RoutedEventArgs e)
         {
             MainWindow next = new MainWindow(employeeCurrent);
             next.Show();
             Close();
+        }
+
+        private void StaffLog(object sender, RoutedEventArgs e)
+        {
+            if (employeeCurrent.Role.RoleName == "Manager")
+            {
+                MainFrame.Navigate(new CustomerHistoryPage(employeeCurrent));
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền truy cập trang này!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 
