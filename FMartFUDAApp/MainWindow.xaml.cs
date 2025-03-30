@@ -68,21 +68,22 @@ namespace FMartFUDAApp
         private void StaffManagement(object sender, RoutedEventArgs e)
         {
             // Kiểm tra quyền của nhân viên hiện tại
+           
+        }
+
+        private void FinancialManagement(object sender, RoutedEventArgs e)
+        {
             if (employeeCurrent.Role.RoleName == "Manager")
             {
-                MainFrame.Navigate(new StaffManagement(employeeCurrent));
+                FinancialManagement next = new FinancialManagement(employeeCurrent);
+                next.Show();
+                Close();
             }
             else
             {
                 MessageBox.Show("Bạn không có quyền truy cập trang này!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-        }
-
-        private void FinancialManagement(object sender, RoutedEventArgs e)
-        {
-            FinancialManagement next = new FinancialManagement(employeeCurrent);
-            next.Show();
-            Close();
+           
         }
         private void Logoutbtn(object sender, RoutedEventArgs e)
         {

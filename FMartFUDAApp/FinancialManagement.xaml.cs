@@ -33,7 +33,14 @@ namespace FMartFUDAApp
 
         private void ManagerStaff(object sender, RoutedEventArgs e)
         {
-
+            if (employeeCurrent.Role.RoleName == "Manager")
+            {
+                MainFrame.Navigate(new StaffManagement(employeeCurrent));
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền truy cập trang này!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void Logoutbtn(object sender, RoutedEventArgs e)

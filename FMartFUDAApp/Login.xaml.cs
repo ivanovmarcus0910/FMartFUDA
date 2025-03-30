@@ -35,7 +35,7 @@ namespace FMartFUDAApp
             string Email = email.Text;
             string Pass = password.Password;
             Employee employee = await getUser(Email, Pass);
-            if (employee!= null)
+            if (employee!= null && employee.Status=="Active")
             {
                 if (employee.Role.RoleName == "Administrator")
                 {
