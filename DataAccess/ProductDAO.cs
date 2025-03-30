@@ -69,8 +69,11 @@ namespace DataAccess
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            //return await _context.Set<Product>().ToListAsync();
-            return await _context.Set<Product>().Include(st => st.Category).ToListAsync();
+            using (var context = new FmartFudaContext()) 
+            {
+                return await context.Set<Product>().Include(st => st.Category).ToListAsync();
+            }
+            
         }
 
         public async Task<Product> GetByIdAsync(int id)
