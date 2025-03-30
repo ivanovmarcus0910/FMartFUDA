@@ -6,12 +6,70 @@
         xmlns:local="clr-namespace:FMartFUDAApp"
         mc:Ignorable="d"
         Title="FinancialManagement" WindowState="Maximized" Background="#F5F5F5">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Revenue" Click="Revenue"/>
-            <MenuItem Header="ManagerStaff" Click="ManagerStaff"/>
-            <MenuItem Header="FinacialReport" Click="FinacialReport"/>
+    <Window.Resources>
+        <LinearGradientBrush x:Key="SidebarGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop x:Name="SidebarGradientStop1" Color="#46a2fb" Offset="0"/>
+            <GradientStop x:Name="SidebarGradientStop2" Color="#00e1df" Offset="1"/>
+        </LinearGradientBrush>
 
+        <!-- Gradient động cho Header -->
+        <LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop x:Name="HeaderGradientStop1" Color="#00e1df" Offset="0"/>
+            <GradientStop x:Name="HeaderGradientStop2" Color="#ff4af7" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!-- Animation Storyboard -->
+        <Storyboard x:Key="GradientAnimation">
+            <ColorAnimation Storyboard.TargetName="SidebarGradientStop1"
+                    Storyboard.TargetProperty="Color"
+                    From="#00CED1" To="#00E1DF"
+                    Duration="0:0:3" AutoReverse="True"
+                    RepeatBehavior="Forever"/>
+
+            <ColorAnimation Storyboard.TargetName="SidebarGradientStop2"
+                    Storyboard.TargetProperty="Color"
+                    From="#009966" To="#00CED1"
+                    Duration="0:0:3" AutoReverse="True"
+                    RepeatBehavior="Forever"/>
+
+            <ColorAnimation Storyboard.TargetName="HeaderGradientStop1"
+                    Storyboard.TargetProperty="Color"
+                    From="#00E1DF" To="#FF4AF7"
+                    Duration="0:0:3" AutoReverse="True"
+                    RepeatBehavior="Forever"/>
+
+            <ColorAnimation Storyboard.TargetName="HeaderGradientStop2"
+                    Storyboard.TargetProperty="Color"
+                    From="#FF4AF7" To="#00E1DF"
+                    Duration="0:0:3" AutoReverse="True"
+                    RepeatBehavior="Forever"/>
+        </Storyboard>
+
+    </Window.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Background="{StaticResource HeaderGradient}" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <Menu.Resources>
+                <Style TargetType="MenuItem">
+                    <Setter Property="MinWidth" Value="120"/>
+                    <Setter Property="Padding" Value="10,5"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#00CED1"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Menu.Resources>
+
+            <MenuItem Header="Revenue" Click="Revenue"/>
+            <MenuItem Header="Manager Staff" Click="ManagerStaff"/>
+            <MenuItem Header="Financial Report" Click="FinacialReport"/>
         </Menu>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
 
