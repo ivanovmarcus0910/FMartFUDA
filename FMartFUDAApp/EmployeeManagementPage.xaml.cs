@@ -258,8 +258,63 @@ namespace FMartFUDAApp
             }
 
         }
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Kiểm tra dữ liệu đầu vào
+                if (string.IsNullOrWhiteSpace(txtEmployeeID.Text))
+                {
+                    MessageBox.Show("Vui lòng chọn nhân viên cần xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Lấy ID của nhân viên
+                int employeeId = int.Parse(txtEmployeeID.Text);
+
+                // Lấy nhân viên từ database
+                Employee employeeToDelete = await EmployeeRepository.GetByIdAsync(employeeId);
+                if (employeeToDelete == null)
+                {
+                    MessageBox.Show("Không tìm thấy nhân viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Xác nhận trước khi thay đổi trạng thái
+                MessageBoxResult result = MessageBox.Show(
+                    "Bạn có chắc chắn muốn vô hiệu hóa nhân viên này?",
+                    "Xác nhận",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question
+                );
+
+                if (result == MessageBoxResult.No)
+                {
+                    return;
+                }
+
+                // Cập nhật trạng thái thành "Inactive"
+                employeeToDelete.Status = "Inactive";
+
+                // Gọi phương thức cập nhật trong Repository
+                await EmployeeRepository.UpdateAsync(employeeToDelete);             
+
+                // Load lại danh sách sau khi cập nhật
+                showData();
+
+                // Xóa form sau khi xóa
+                ClearForm();
+
+                MessageBox.Show("Nhân viên đã được vô hiệu hóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
 
 
-       
+
     }
 }
