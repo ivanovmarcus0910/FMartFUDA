@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Models.Models;
 using Repositories;
@@ -41,6 +42,7 @@ namespace FMartFUDAApp
             productRepository = new ProductRepository();
             orderHistoryRepository = new OrderHistoryRepository();
             LoadData();
+            LoadProducts();
         }
 
         private async void LoadData()
@@ -55,6 +57,24 @@ namespace FMartFUDAApp
             OrderDetailGrid.ItemsSource = orderDetails;
         }
 
+        private async void LoadProducts()
+        {
+            var products = await productRepository.GetAllAsync();
+            ProductGrid.ItemsSource = products;
+        }
+
+        private async void txtSearchProduct_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtPlaceholder.Visibility = string.IsNullOrWhiteSpace(txtSearchProduct.Text)
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+            string keyword = txtSearchProduct.Text.ToLower();
+            var allProducts = await productRepository.GetAllAsync();
+            var filteredProducts = allProducts.Where(p => p.ProductName.ToLower().Contains(keyword)).ToList();
+            ProductGrid.ItemsSource = filteredProducts;
+        }
+
         private async void OrderDetailGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (OrderDetailGrid.SelectedItem is OrderDetail selectedDetail)
@@ -62,7 +82,6 @@ namespace FMartFUDAApp
                 txtSTT.Text = selectedDetail.OrderDetailId.ToString();
                 txtProductID.Text = selectedDetail.ProductId.ToString();
                 var product = await productRepository.GetByIdAsync(selectedDetail.ProductId);
-                txtProductName.Text = product.ProductName;
                 txtOrderQuantity.Text = selectedDetail.OrderQuantity.ToString();
                 txtOrderPrice.Text = selectedDetail.OrderPrice.ToString();
             }
@@ -70,57 +89,60 @@ namespace FMartFUDAApp
             {
                 txtSTT.Text = "";
                 txtProductID.Text = "";
-                txtProductName.Text = "";
                 txtOrderQuantity.Text = "";
                 txtOrderPrice.Text = "";
             }
         }
 
-        private async void txtProductID_TextChanged(object sender, TextChangedEventArgs e)
+        private async void btnAddProduct_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(txtProductID.Text, out int productId))
+            if (((Button)sender).Tag is Product selectedProduct)
             {
-                var product = await productRepository.GetByIdAsync(productId);
-                txtProductName.Text = product?.ProductName ?? "Không tìm thấy sản phẩm";
+                var orderDetails = (List<OrderDetail>)OrderDetailGrid.ItemsSource;
+
+                var existingDetail = orderDetails.FirstOrDefault(od => od.ProductId == selectedProduct.ProductId);
+
+                if (existingDetail != null)
+                {
+                    existingDetail.OrderQuantity += 1;
+                    existingDetail.OrderPrice = existingDetail.OrderQuantity * selectedProduct.ProductPrice;
+                    await orderDetailRepository.UpdateAsync(existingDetail);
+
+                    await orderHistoryRepository.AddAsync(new OrderHistory
+                    {
+                        ActionType = "Update",
+                        ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                        EmployeeId = employee.EmployeeId,
+                        ChangeDecription = $"Cập nhật số lượng sản phẩm ID [{selectedProduct.ProductId}] trong đơn hàng ID [{order.OrderId}], số lượng mới [{existingDetail.OrderQuantity}], giá mới [{existingDetail.OrderPrice}]"
+                    });
+                }
+                else
+                {
+                    int maxOrderDetailId = await orderDetailRepository.GetMaxOrderDetailIdAsync(order.OrderId);
+                    int newOrderDetailId = maxOrderDetailId + 1;
+
+                    var newDetail = new OrderDetail
+                    {
+                        OrderDetailId = newOrderDetailId,
+                        OrderId = order.OrderId,
+                        ProductId = selectedProduct.ProductId,
+                        OrderQuantity = 1,
+                        OrderPrice = selectedProduct.ProductPrice
+                    };
+                    await orderDetailRepository.AddAsync(newDetail);
+                    order.OrderAmount += selectedProduct.ProductPrice;
+
+                    await orderHistoryRepository.AddAsync(new OrderHistory
+                    {
+                        ActionType = "Create",
+                        ActionDate = DateOnly.FromDateTime(DateTime.Now),
+                        EmployeeId = employee.EmployeeId,
+                        ChangeDecription = $"Thêm chi tiết đơn hàng ID [{newOrderDetailId}] vào đơn hàng ID [{order.OrderId}], sản phẩm ID [{selectedProduct.ProductId}], số lượng [1], giá [{selectedProduct.ProductPrice}]"
+                    });
+                }
+
+                LoadData();
             }
-        }
-
-        private async void btnCreate_Click(object sender, RoutedEventArgs e)
-        {
-            if (!int.TryParse(txtProductID.Text, out int productId) ||
-                !int.TryParse(txtOrderQuantity.Text, out int quantity) ||
-                !double.TryParse(txtOrderPrice.Text, out double price))
-            {
-                MessageBox.Show("Dữ liệu nhập không hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            int maxOrderDetailId = await orderDetailRepository.GetMaxOrderDetailIdAsync(order.OrderId);
-            int newOrderDetailId = maxOrderDetailId + 1;
-
-            var newOrderDetail = new OrderDetail
-            {
-                OrderDetailId = newOrderDetailId,
-                OrderId = order.OrderId,
-                ProductId = productId,
-                OrderQuantity = quantity,
-                OrderPrice = price
-            };
-
-            await orderDetailRepository.AddAsync(newOrderDetail);
-            order.OrderAmount += price; 
-            await orderRepository.UpdateAsync(order);
-
-            await orderHistoryRepository.AddAsync(new OrderHistory
-            {
-                ActionType = "Create",
-                ActionDate = DateOnly.FromDateTime(DateTime.Now),
-                EmployeeId = employee.EmployeeId,
-                ChangeDecription = $"Thêm chi tiết đơn hàng ID [{newOrderDetailId}] vào đơn hàng ID [{order.OrderId}], sản phẩm ID [{productId}], số lượng [{quantity}], giá [{price}]"
-            });
-
-            LoadData();
-            MessageBox.Show("Thêm chi tiết đơn hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -139,7 +161,6 @@ namespace FMartFUDAApp
                 return;
             }
 
-            // Lưu trạng thái cũ để ghi lịch sử
             int oldProductId = selectedDetail.ProductId;
             int oldQuantity = selectedDetail.OrderQuantity;
             double oldPrice = selectedDetail.OrderPrice;
@@ -149,8 +170,7 @@ namespace FMartFUDAApp
             selectedDetail.OrderPrice = price;
 
             await orderDetailRepository.UpdateAsync(selectedDetail);
-
-            // Ghi lịch sử cập nhật
+            order.OrderAmount = order.OrderAmount - oldPrice + price;
             await orderHistoryRepository.AddAsync(new OrderHistory
             {
                 ActionType = "Update",
@@ -178,7 +198,6 @@ namespace FMartFUDAApp
             MessageBoxResult result = MessageBox.Show("Bạn có chắc muốn xóa chi tiết đơn hàng này?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                // Lưu lịch sử trước khi xóa
                 await orderHistoryRepository.AddAsync(new OrderHistory
                 {
                     ActionType = "Delete",
@@ -189,7 +208,7 @@ namespace FMartFUDAApp
                                        $"Số lượng [{selectedDetail.OrderQuantity}], " +
                                        $"Giá [{selectedDetail.OrderPrice}]"
                 });
-
+                order.OrderAmount = order.OrderAmount - selectedDetail.OrderPrice;
                 await orderDetailRepository.DeleteAsync(selectedDetail.OrderDetailId, selectedDetail.OrderId);
 
                 LoadData();
@@ -223,6 +242,5 @@ namespace FMartFUDAApp
                 txtOrderPrice.Text = "0";
             }
         }
-
     }
 }

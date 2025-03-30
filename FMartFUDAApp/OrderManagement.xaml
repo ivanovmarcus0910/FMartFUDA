@@ -15,7 +15,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Tiêu đề -->
         <TextBlock Grid.Row="0" Text="QUẢN LÝ ĐƠN HÀNG" FontSize="24" FontWeight="Bold"
                    Foreground="DarkBlue" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
@@ -25,7 +24,6 @@
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Form nhập liệu -->
             <StackPanel Grid.Column="0" Margin="0,0,20,0">
                 <TextBlock Text="Mã đơn hàng:" FontSize="16" FontWeight="Bold"/>
                 <TextBox x:Name="txtOrderID" FontSize="14" Margin="0,5,0,10" IsReadOnly="True"/>
@@ -43,7 +41,6 @@
                 <TextBox x:Name="txtTotalAmount" FontSize="14" Margin="0,5,0,10" IsReadOnly="True"/>
             </StackPanel>
 
-            <!-- Bảng danh sách đơn hàng -->
             <DataGrid x:Name="OrderGrid" Grid.Column="1" AutoGenerateColumns="False"
                       SelectionMode="Single" Margin="10" FontSize="14" IsReadOnly="True" SelectionChanged="OrderGrid_SelectionChanged">
                 <DataGrid.Columns>
@@ -63,7 +60,6 @@
             </DataGrid>
         </Grid>
 
-        <!-- Nút điều khiển -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
             <Button x:Name="btnCreate" Content="Thêm mới" Width="120" Height="40"
                     Margin="10" FontSize="14" Click="btnCreate_Click"/>

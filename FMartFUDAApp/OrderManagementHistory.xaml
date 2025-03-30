@@ -13,7 +13,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Bộ lọc -->
         <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Left">
             <Label Content="Lọc theo hành động:" VerticalAlignment="Center"/>
             <ComboBox x:Name="cbActionType" Width="120" Margin="5">
@@ -35,7 +34,6 @@
             <Button Content="Xóa" Click="DeleteSelectedHistory" Width="80" Margin="5" Background="Red" Foreground="White"/>
         </StackPanel>
 
-        <!-- DataGrid hiển thị lịch sử -->
         <DataGrid x:Name="OrderHistoryGrid" Grid.Row="1" Margin="10" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding HistoryId}" Width="50"/>
