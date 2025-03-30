@@ -43,17 +43,15 @@ namespace FMartFUDAApp
         {
             MainFrame.Navigate(new OrderManagement(employeeCurrent));
         }
-        private void OrderManagementHistory(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new OrderManagementHistory());
-        }
+       
         private void CategoryManagement(object sender, RoutedEventArgs e)
         {
+            MainFrame.Navigate(new FrmCategory());
 
         }
         private void ProductManagement(object sender, RoutedEventArgs e)
         {
-
+            MainFrame.Navigate(new FrmProduct());
         }
         private void HistoryManagement(object sender, RoutedEventArgs e)
         {
@@ -120,6 +118,10 @@ namespace FMartFUDAApp
             txtClock.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
         }
 
+        private void OrderHistoryManagement(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new OrderManagementHistory());
 
+        }
     }
 }

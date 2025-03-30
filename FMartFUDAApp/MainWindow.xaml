@@ -114,21 +114,11 @@
             <TextBlock Text="FMart Management System" Foreground="White" FontSize="25" FontWeight="Bold" Height="69" Width="238" TextWrapping="Wrap" TextAlignment="Center" Margin="0,15,0,0" />
             <Separator Background="White" Height="14" Width="202" />
 
-            <Button Click="CustomerManagement" Style="{StaticResource SidebarButtonStyle}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="Customer" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
+           
 
             <Button Click="OrderManagement" Style="{StaticResource SidebarButtonStyle}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Text="Order Manager" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-
-            <Button Click="OrderDetailManagement" Style="{StaticResource SidebarButtonStyle}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="OrderDetail Manager" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
@@ -144,21 +134,33 @@
                 </StackPanel>
             </Button>
 
+            <Button Click="CustomerManagement" Style="{StaticResource SidebarButtonStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Customer" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            
+            <Button Click="StaffManagement" Style="{StaticResource SidebarButtonStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Staff Management" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            
             <Button Click="FinancialManagement" Style="{StaticResource SidebarButtonStyle}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Text="Manager Management" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
-            <Button Click="StaffManagement" Style="{StaticResource SidebarButtonStyle}">
+            <Button Click="HistoryManagement" Style="{StaticResource SidebarButtonStyle}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="Staff Management" VerticalAlignment="Center"/>
+                    <TextBlock Text="AccountHistory" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
-            <Button Click="HistoryManagement" Style="{StaticResource SidebarButtonStyle}">
+            <Button Click="OrderHistoryManagement" Style="{StaticResource SidebarButtonStyle}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="History Management" VerticalAlignment="Center"/>
+                    <TextBlock Text="Order History Manager" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
         </StackPanel>
@@ -189,6 +191,6 @@
         </DockPanel>
 
         <!-- Main Content -->
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="250,144,0,0" />
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="250,90,0,0" />
     </Grid>
 </Window>

@@ -80,9 +80,6 @@ namespace FMartFUDAApp
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
-            }
 
         }
 
