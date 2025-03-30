@@ -33,7 +33,7 @@ namespace FMartFUDAApp
             InitializeComponent();
             orderRepo = new OrderRepository();
             DataContext = this;
-            LoadRevenueData(DateTime.Now.AddMonths(-1), DateTime.Now);
+           LoadRevenueData(DateTime.Now.AddMonths(-1), DateTime.Now);
 
         }
         private async void LoadRevenueData(DateTime StartDate, DateTime EndDate)
@@ -57,9 +57,13 @@ namespace FMartFUDAApp
                 };
             Dates = groupedOrders.Select(g => g.Date.ToString("dd/MM/yyyy")).ToList();
             TotalRevenue = groupedOrders.Sum(g => g.Revenue);
+            DataContext = null;
+            DataContext = this;
+            tableData.ItemsSource= orders;
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
+          LoadRevenueData(dpStartDate.SelectedDate.Value != null ? dpStartDate.SelectedDate.Value : DateTime.Now.AddMonths(-1), dpEndDate.SelectedDate.Value != null ? dpEndDate.SelectedDate.Value : DateTime.Now);
 
         }
     }

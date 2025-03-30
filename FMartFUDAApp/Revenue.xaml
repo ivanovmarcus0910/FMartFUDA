@@ -21,10 +21,7 @@
             </StackPanel>
 
             <!-- Biểu đồ doanh thu -->
-            <lvc:CartesianChart>
-                <lvc:CartesianChart.Series>
-                    <lvc:LineSeries Values="{Binding RevenueValues}" Title="Doanh thu"/>
-                </lvc:CartesianChart.Series>
+            <lvc:CartesianChart Series="{Binding RevenueValues}">
                 <lvc:CartesianChart.AxisX>
                     <lvc:Axis Title="Ngày" Labels="{Binding Dates}"/>
                 </lvc:CartesianChart.AxisX>
@@ -33,11 +30,20 @@
                 </lvc:CartesianChart.AxisY>
             </lvc:CartesianChart>
 
+
             <!-- Tổng doanh thu -->
             <TextBlock Text="{Binding TotalRevenue, StringFormat='Tổng doanh thu: {0:N0} VNĐ'}" FontSize="16" FontWeight="Bold" Foreground="Blue" HorizontalAlignment="Center" Margin="10"/>
 
             <!-- Danh sách hóa đơn -->
-            <DataGrid ItemsSource="{Binding Orders}" AutoGenerateColumns="True" Height="200"/>
+            <DataGrid x:Name="tableData" ItemsSource="{Binding Orders}" AutoGenerateColumns="False" Height="200">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}" Width="100"/>
+                    <DataGridTextColumn Header="Customer ID" Binding="{Binding CustomerId}" Width="100"/>
+                    <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeId}" Width="100"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding OrderDate, StringFormat='dd/MM/yyyy'}" Width="120"/>
+                    <DataGridTextColumn Header="Order Amount" Binding="{Binding OrderAmount, StringFormat=N0}" Width="150"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </Grid>
 </Page>

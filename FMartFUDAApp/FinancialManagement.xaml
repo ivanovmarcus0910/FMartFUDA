@@ -97,24 +97,22 @@
                     </ItemsPanelTemplate>
                 </Menu.ItemsPanel>
 
-                <MenuItem Header="Revenue" Click="Revenue"/>
-                <MenuItem Header="Manager Staff" Click="ManagerStaff"/>
-                <MenuItem Header="Staff Logs" Click="StaffLog"/>
-
-                <MenuItem Header="Financial Report" Click="FinancialReport"/>
+                <MenuItem Header="Doanh Thu" Click="Revenue"/>
+                <MenuItem Header="Quản lý nhân viên" Click="ManagerStaff"/>
+                <MenuItem Header="Lịch sử" Click="StaffLog"/>
             </Menu>
 
             <!-- Logout Button -->
             <Button Grid.Column="1" Click="BackBT" Style="{StaticResource LogoutButtonStyle}"
         FontWeight="Bold" FontSize="14" Margin="10,5,20,5">
 
-                <TextBlock Text="Back" VerticalAlignment="Center"/>
+                <TextBlock Text="Trở về" VerticalAlignment="Center"/>
 
             </Button>
             <Button Grid.Column="2" Click="Logoutbtn" Style="{StaticResource LogoutButtonStyle}"
                     FontWeight="Bold" FontSize="14" Margin="10,5,20,5">
                 
-                    <TextBlock Text="Logout" VerticalAlignment="Center"/>
+                    <TextBlock Text="Đăng xuất" VerticalAlignment="Center"/>
               
             </Button>
         </Grid>
