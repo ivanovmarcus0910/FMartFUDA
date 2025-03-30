@@ -29,6 +29,8 @@ namespace FMartFUDAApp
             employeeCurrent = employee;
             welcomeTextBlock.Text = $"Welcome, {employee.EmployeeName}";
             StartTimer();
+            MainFrame.Navigate(new OrderManagement(employeeCurrent));
+
         }
 
 
@@ -95,6 +97,7 @@ namespace FMartFUDAApp
 
             if (result == MessageBoxResult.Yes)
             {
+                employeeCurrent = null;
                 RedirectToLogin();
             }
         }

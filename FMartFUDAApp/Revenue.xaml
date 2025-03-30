@@ -17,7 +17,7 @@
                 <DatePicker x:Name="dpStartDate" SelectedDate="{Binding StartDate}"/>
                 <Label Content="Đến ngày:"/>
                 <DatePicker x:Name="dpEndDate" SelectedDate="{Binding EndDate}"/>
-                <Button Content="Lọc" Command="{Binding FilterCommand}" Margin="5"/>
+                <Button Content="Lọc" Margin="5" Click="Button_Click"/>
             </StackPanel>
 
             <!-- Biểu đồ doanh thu -->
