@@ -99,6 +99,8 @@
 
                 <MenuItem Header="Revenue" Click="Revenue"/>
                 <MenuItem Header="Manager Staff" Click="ManagerStaff"/>
+                <MenuItem Header="Staff Logs" Click="StaffLog"/>
+
                 <MenuItem Header="Financial Report" Click="FinancialReport"/>
             </Menu>
 

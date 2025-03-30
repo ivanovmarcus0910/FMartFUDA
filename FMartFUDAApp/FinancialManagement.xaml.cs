@@ -76,6 +76,18 @@ namespace FMartFUDAApp
             next.Show();
             Close();
         }
+
+        private void StaffLog(object sender, RoutedEventArgs e)
+        {
+            if (employeeCurrent.Role.RoleName == "Manager")
+            {
+                MainFrame.Navigate(new CustomerHistoryPage(employeeCurrent));
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền truy cập trang này!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 
     

@@ -139,22 +139,10 @@
                     <TextBlock Text="Customer" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            
-            <Button Click="StaffManagement" Style="{StaticResource SidebarButtonStyle}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="Staff Management" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-            
+
             <Button Click="FinancialManagement" Style="{StaticResource SidebarButtonStyle}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Text="Manager Management" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-
-            <Button Click="HistoryManagement" Style="{StaticResource SidebarButtonStyle}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="AccountHistory" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
