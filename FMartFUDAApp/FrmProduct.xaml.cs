@@ -32,23 +32,49 @@ namespace FMartFUDAApp
             categoryRepository = new CategoryRepository();
             LoadproductList();
             LoadComboCategory();
+          
+
         }
 
+      
         public async void LoadproductList()
         {
             var products = await productRepository.GetAllAsync();
-            dgData.ItemsSource = null;
-            dgData.ItemsSource = products;
 
+            string projectDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+
+            foreach (var product in products)
+            {
+                if (!string.IsNullOrEmpty(product.ProductImage))
+                {
+                    product.ProductImage = System.IO.Path.Combine(projectDir, product.ProductImage);
+
+                }
+            }
+
+            dgData.ItemsSource = products;
         }
+
         public async void LoadComboCategory()
         {
             var list = await categoryRepository.GetAllAsync();
             cboCategory.ItemsSource = list;
             cboCategory.DisplayMemberPath = "CategoryName";
             cboCategory.SelectedValuePath = "CategoryId";
+
+            // Gán dữ liệu cho cboFilterCategory
+            cboFilterCategory.ItemsSource = list;
+            cboFilterCategory.DisplayMemberPath = "CategoryName";
+            cboFilterCategory.SelectedValuePath = "CategoryId";
+            cboFilterCategory.SelectedIndex = -1; // Đặt mặc định kh
         }
 
+
+        private void cboFilterCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+            btnSearch_Click(sender, e);
+        }
         private void dgData_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgData.SelectedItem is Product selectedProduct)
@@ -227,5 +253,45 @@ namespace FMartFUDAApp
             }
         }
 
+        private async void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            string keyword = txtSearchProductName.Text.ToLower().Trim();
+            int? selectedCategoryId = cboFilterCategory.SelectedValue as int?;
+
+            var products = await productRepository.GetAllAsync();
+            if (products == null || !products.Any())
+            {
+                MessageBox.Show("Không có sản phẩm nào được tải!");
+                return;
+            }
+
+            // Debug để kiểm tra CategoryId trong danh sách sản phẩm
+            //var categoryIds = products.Select(p => p.CategoryId).Distinct();
+            //MessageBox.Show("Category IDs trong sản phẩm: " + string.Join(", ", categoryIds));
+
+            var filtered = products.Where(p =>
+                (string.IsNullOrEmpty(keyword) || p.ProductName.ToLower().Contains(keyword)) &&
+                (!selectedCategoryId.HasValue || p.CategoryId == selectedCategoryId.Value)
+            ).ToList();
+
+            string projectDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            foreach (var product in filtered)
+            {
+                if (!string.IsNullOrEmpty(product.ProductImage))
+                {
+                    product.ProductImage = System.IO.Path.Combine(projectDir, product.ProductImage);
+                }
+            }
+
+            dgData.ItemsSource = filtered;
+        }
+
+        private void btnReset_Click(object sender, RoutedEventArgs e)
+        {
+            cboFilterCategory.SelectedIndex = -1;
+           
+            LoadproductList();
+
+        }
     }
 }
